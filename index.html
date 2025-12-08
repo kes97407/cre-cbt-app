@@ -826,6 +826,81 @@ function setupAddQuestionForm() {
     form.reset();
     document.getElementById("addAnswer").value = 0;
   });
+  // ========================
+//  11-1. 문제 파일 업로드 (JSON 여러 개)
+// ========================
+function setupUploadQuestions() {
+  const input = document.getElementById("uploadFileInput");
+  const btn = document.getElementById("uploadFileBtn");
+  if (!input || !btn) return;
+
+  btn.addEventListener("click", () => {
+    const file = input.files && input.files[0];
+    if (!file) {
+      alert("업로드할 JSON 파일을 먼저 선택해주세요.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const text = e.target.result;
+        const parsed = JSON.parse(text);
+
+        if (!Array.isArray(parsed)) {
+          alert("JSON 최상위 구조가 배열이어야 합니다. 예시 파일 형식을 확인해주세요.");
+          return;
+        }
+
+        const valid = [];
+        parsed.forEach((q, idx) => {
+          if (!q.id || !q.chapter || !q.type || !q.text ||
+              !Array.isArray(q.options) || q.options.length !== 4 ||
+              typeof q.answer !== "number" || q.answer < 0 || q.answer > 3 ||
+              !q.explanation) {
+            console.warn("형식 오류로 제외됨:", idx, q);
+          } else {
+            valid.push(q);
+          }
+        });
+
+        if (!valid.length) {
+          alert("추가 가능한 문제를 찾지 못했습니다.");
+          return;
+        }
+
+        const custom = loadCustomQuestions();
+        const allIds = new Set(
+          BASE_QUESTIONS.map(q => q.id).concat(custom.map(q => q.id))
+        );
+
+        const filtered = valid.filter(q => {
+          if (allIds.has(q.id)) {
+            console.warn("중복 ID로 제외:", q.id);
+            return false;
+          }
+          return true;
+        });
+
+        if (!filtered.length) {
+          alert("모든 ID가 기존 문제와 중복되어 추가할 수 없습니다.");
+          return;
+        }
+
+        const newList = custom.concat(filtered);
+        saveCustomQuestions(newList);
+
+        alert(`파일에서 ${filtered.length}개의 문제가 추가되었습니다!`);
+        input.value = "";
+      } catch (err) {
+        alert("JSON 파싱 오류: 형식을 다시 확인해주세요.");
+      }
+    };
+
+    reader.readAsText(file, "utf-8");
+  });
+}
+
 }
 
 // ========================
@@ -870,4 +945,5 @@ setupGate();
 </script>
 </body>
 </html>
+
 
