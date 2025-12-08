@@ -84,12 +84,14 @@
       <label>챕터 선택</label>
       <select id="chapterSelect">
         <option value="all">전체</option>
-        <option value="Fundamentals">II. Reliability Fundamentals</option>
-        <option value="Stats">IV. Statistical Concepts</option>
-        <option value="Testing">VII. Testing &amp; Modeling</option>
-        <option value="Design">VIII. Reliability Designs</option>
-        <option value="Maintain">IX. Maintainability / RCM</option>
-        <option value="Risk">III. Risk / FTA</option>
+        <option value="챕터 2 - Reliability Fundamentals">챕터 2 - Reliability Fundamentals</option>
+        <option value="챕터 3 - Risk Management">챕터 3 - Risk Management</option>
+        <option value="챕터 4 - Statistical Concepts">챕터 4 - Statistical Concepts</option>
+        <option value="챕터 5 - Data Management">챕터 5 - Data Management</option>
+        <option value="챕터 6 - Reliability Planning">챕터 6 - Reliability Planning</option>
+        <option value="챕터 7 - Testing and Modeling">챕터 7 - Testing and Modeling</option>
+        <option value="챕터 8 - Reliability Designs">챕터 8 - Reliability Designs</option>
+        <option value="챕터 9 - Maintainability">챕터 9 - Maintainability</option>
       </select>
     </div>
     <div>
@@ -148,12 +150,14 @@
         <input type="text" id="addId" placeholder="Q100-1" required />
         <label>챕터</label>
         <select id="addChapter">
-          <option value="Stats">IV. Statistical Concepts</option>
-          <option value="Testing">VII. Testing &amp; Modeling</option>
-          <option value="Design">VIII. Reliability Designs</option>
-          <option value="Maintain">IX. Maintainability / RCM</option>
-          <option value="Risk">III. Risk / FTA</option>
-          <option value="Fundamentals">II. Reliability Fundamentals</option>
+          <option value="챕터 2 - Reliability Fundamentals">챕터 2 - Reliability Fundamentals</option>
+          <option value="챕터 3 - Risk Management">챕터 3 - Risk Management</option>
+          <option value="챕터 4 - Statistical Concepts">챕터 4 - Statistical Concepts</option>
+          <option value="챕터 5 - Data Management">챕터 5 - Data Management</option>
+          <option value="챕터 6 - Reliability Planning">챕터 6 - Reliability Planning</option>
+          <option value="챕터 7 - Testing and Modeling">챕터 7 - Testing and Modeling</option>
+          <option value="챕터 8 - Reliability Designs">챕터 8 - Reliability Designs</option>
+          <option value="챕터 9 - Maintainability">챕터 9 - Maintainability</option>
         </select>
         <label>유형</label>
         <select id="addType">
@@ -208,13 +212,13 @@
 const APP_PASSWORD = "cre2025"; // 여기서 원하는 비밀번호로 바꿔도 됨
 
 // ========================
-//  1. 기본 문제 데이터
+//  1. 기본 문제 데이터 (챕터명 반영)
 // ========================
 const BASE_QUESTIONS = [
-  // Stats (통계)
+  // 챕터 4 - Statistical Concepts (옛 Stats)
   {
     id: "Q1",
-    chapter: "Stats",
+    chapter: "챕터 4 - Statistical Concepts",
     type: "C",
     text: "Exponential 분포에서 MTBF = 800시간일 때, 400시간의 신뢰도 R(400)에 가장 가까운 값은?",
     options: ["0.50","0.61","0.37","0.80"],
@@ -223,7 +227,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q2",
-    chapter: "Stats",
+    chapter: "챕터 4 - Statistical Concepts",
     type: "C",
     text: "Exponential 수명시험에서 총 시험시간 T = 4000h, 고장수 r = 3일 때, 90% 하한 MTBF를 구하는 올바른 식은?",
     options: [
@@ -237,7 +241,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q3",
-    chapter: "Stats",
+    chapter: "챕터 4 - Statistical Concepts",
     type: "C",
     text: "정규분포(μ=50, σ=10)를 따를 때, 40시간 내 고장날 확률에 가장 가까운 값은?",
     options: [
@@ -251,7 +255,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q4",
-    chapter: "Stats",
+    chapter: "챕터 4 - Statistical Concepts",
     type: "A",
     text: "Exponential 분포에서 MTBF 시점에서의 신뢰도 R(MTBF)에 가장 가까운 값은?",
     options: ["0.50","0.37","0.63","0.90"],
@@ -260,7 +264,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q5",
-    chapter: "Stats",
+    chapter: "챕터 4 - Statistical Concepts",
     type: "A",
     text: "Weibull 분포에서 β(형상모수)가 1보다 클 때 의미는?",
     options: [
@@ -273,10 +277,10 @@ const BASE_QUESTIONS = [
     explanation: "β>1 → 고장률이 증가하는 마모(wear-out) 영역.",
   },
 
-  // Testing & Modeling (시험/모델링)
+  // 챕터 7 - Testing and Modeling (옛 Testing)
   {
     id: "Q6",
-    chapter: "Testing",
+    chapter: "챕터 7 - Testing and Modeling",
     type: "A",
     text: "ALT(Accelerated Life Testing)의 가장 핵심 목적은?",
     options: [
@@ -290,7 +294,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q7",
-    chapter: "Testing",
+    chapter: "챕터 7 - Testing and Modeling",
     type: "A",
     text: "Peck 모델에 대한 설명으로 옳은 것은?",
     options: [
@@ -304,7 +308,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q8",
-    chapter: "Testing",
+    chapter: "챕터 7 - Testing and Modeling",
     type: "A",
     text: "Step-stress 시험에 대한 설명으로 가장 올바른 것은?",
     options: [
@@ -316,11 +320,9 @@ const BASE_QUESTIONS = [
     answer: 1,
     explanation: "Step-stress: 특정 시간 간격마다 스트레스 레벨을 올려가는 시험.",
   },
-
-  // RBD / Redundancy / Risk
   {
     id: "Q9",
-    chapter: "Testing",
+    chapter: "챕터 7 - Testing and Modeling",
     type: "C",
     text: "신뢰도 0.7, 0.8, 0.9인 세 서브시스템이 병렬 구성일 때 시스템 신뢰도에 가장 가까운 값은?",
     options: ["0.90","0.97","0.50","0.80"],
@@ -329,16 +331,18 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q10",
-    chapter: "Testing",
+    chapter: "챕터 7 - Testing and Modeling",
     type: "C",
     text: "Perfect switching standby 시스템에서 Active 유닛 신뢰도=0.9, Standby=0.8일 때 시스템 신뢰도는?",
     options: ["0.90","0.92","0.98","0.99"],
     answer: 2,
     explanation: "Rsys = Ra + (1-Ra)Rs = 0.9 + 0.1*0.8 = 0.98",
   },
+
+  // 챕터 3 - Risk Management (옛 Risk)
   {
     id: "Q11",
-    chapter: "Risk",
+    chapter: "챕터 3 - Risk Management",
     type: "A",
     text: "공통원인고장(Common Cause Failure)에 대한 설명으로 올바른 것은?",
     options: [
@@ -352,7 +356,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q12",
-    chapter: "Risk",
+    chapter: "챕터 3 - Risk Management",
     type: "A",
     text: "FTA(Fault Tree Analysis)의 대표적인 장점은?",
     options: [
@@ -365,10 +369,10 @@ const BASE_QUESTIONS = [
     explanation: "FTA는 Top event(시스템 고장)를 정해놓고 그 원인을 논리적으로 추적.",
   },
 
-  // Design / Taguchi / DOE
+  // 챕터 8 - Reliability Designs (옛 Design)
   {
     id: "Q13",
-    chapter: "Design",
+    chapter: "챕터 8 - Reliability Designs",
     type: "A",
     text: "DOE에서 '블록(block)'의 올바른 정의는?",
     options: [
@@ -382,7 +386,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q14",
-    chapter: "Design",
+    chapter: "챕터 8 - Reliability Designs",
     type: "A",
     text: "Taguchi Loss Function에 대한 설명으로 가장 올바른 것은?",
     options: [
@@ -396,7 +400,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q15",
-    chapter: "Design",
+    chapter: "챕터 8 - Reliability Designs",
     type: "A",
     text: "강건설계(Robust Design)의 핵심 목적은?",
     options: [
@@ -409,10 +413,10 @@ const BASE_QUESTIONS = [
     explanation: "Robust Design = Noise에 덜 민감한 설계.",
   },
 
-  // Maintainability / RCM
+  // 챕터 9 - Maintainability (옛 Maintain)
   {
     id: "Q16",
-    chapter: "Maintain",
+    chapter: "챕터 9 - Maintainability",
     type: "A",
     text: "RCM(Reliability-Centered Maintenance)의 가장 근본적인 목적은?",
     options: [
@@ -426,7 +430,7 @@ const BASE_QUESTIONS = [
   },
   {
     id: "Q17",
-    chapter: "Maintain",
+    chapter: "챕터 9 - Maintainability",
     type: "C",
     text: "어떤 시스템의 MTBM=1700h, MDT=34h일 때 Operational Availability Ao에 가장 가까운 값은?",
     options: ["0.90","0.95","0.98","0.99"],
