@@ -27,7 +27,7 @@
   .explanation { font-size:13px; margin-top:4px; color:#334155; }
 
   .panel-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:20px; }
-  .panel { flex:1; min-width:260px; background:#f9fafb; border-radius:8px; padding:10px 12px; border:1px solid #e5e7eb; max-height:280px; overflow:auto; }
+  .panel { flex:1; min-width:260px; background:#f9fafb; border-radius:8px; padding:10px 12px; border:1px solid #e5e7eb; max-height:300px; overflow:auto; }
   .panel h3 { margin-top:0; font-size:15px; }
   .note-item, .score-item { font-size:12px; margin-bottom:6px; border-bottom:1px dashed #e5e7eb; padding-bottom:4px; }
 
@@ -180,11 +180,21 @@
       <button type="button" class="secondary" id="uploadFileBtn" style="margin-top:6px;">파일에서 문제 추가</button>
       <p style="font-size:11px;color:#6b7280;margin-top:4px;">
         - 형식: JSON 배열, 각 항목은 {id, chapter, type, text, options[4], answer, explanation}<br/>
-        - 예: <code>cre_questions_20_example.json</code> 파일 업로드 → 여러 문제 한 번에 추가
+        - 예: <code>cre_questions_xxx.json</code> 파일 업로드 → 여러 문제 한 번에 추가
+      </p>
+
+      <hr style="margin:10px 0;">
+      <h4 style="font-size:13px;">📦 사용자 추가 문제 관리</h4>
+      <button type="button" class="danger" id="clearCustomBtn" style="margin-top:4px;">사용자 추가 문제 모두 삭제</button>
+      <button type="button" class="secondary" id="exportCustomBtn" style="margin-top:4px;">현재 추가 문제 JSON 다운로드</button>
+      <p style="font-size:11px;color:#6b7280;margin-top:4px;">
+        - 다운로드한 JSON을 다른 PC에서 이 사이트 열고<br/>
+        &nbsp;&nbsp;위의 “파일에서 문제 추가”로 업로드하면 문제은행 복원 가능<br/>
+        - 삭제 버튼은 <b>사용자 추가 문제만</b> 지우고, 기본 문제·오답·점수는 그대로 유지됩니다.
       </p>
 
       <p style="font-size:11px;color:#6b7280;margin-top:6px;">
-        * 이렇게 추가한 문제는 이 브라우저(LocalStorage)에만 저장됩니다.<br/>
+        * 사용자 추가 문제는 이 브라우저(LocalStorage)에만 저장됩니다.<br/>
         (다른 PC/브라우저에서는 보이지 않음)
       </p>
     </div>
@@ -904,6 +914,43 @@ function setupUploadQuestions() {
 }
 
 // ========================
+// 11-2. 사용자 추가 문제 관리 (초기화 + Export)
+// ========================
+function setupCustomManagement() {
+  const clearBtn = document.getElementById("clearCustomBtn");
+  const exportBtn = document.getElementById("exportCustomBtn");
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      if (!confirm("사용자 추가 문제를 모두 삭제할까요?\n(기본 문제, 오답, 점수는 그대로 유지됩니다)")) return;
+      saveCustomQuestions([]);
+      alert("사용자 추가 문제가 모두 삭제되었습니다.");
+    });
+  }
+
+  if (exportBtn) {
+    exportBtn.addEventListener("click", () => {
+      const custom = loadCustomQuestions();
+      if (!custom.length) {
+        alert("저장된 사용자 추가 문제가 없습니다.");
+        return;
+      }
+      const jsonStr = JSON.stringify(custom, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const dateStr = new Date().toISOString().slice(0,10); // YYYY-MM-DD
+      a.href = url;
+      a.download = `cre_custom_questions_${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+}
+
+// ========================
 // 12. 비밀번호 게이트
 // ========================
 function setupGate() {
@@ -942,6 +989,7 @@ document.getElementById("resetBtn").addEventListener("click", resetQuiz);
 
 setupAddQuestionForm();
 setupUploadQuestions();
+setupCustomManagement();
 setupGate();
 </script>
 </body>
