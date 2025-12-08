@@ -143,6 +143,15 @@
     </div>
     <div class="panel">
       <h3>➕ 문제 추가 (이 브라우저에 저장)</h3>
+            <hr style="margin:10px 0;">
+      <h4 style="font-size:13px;">📁 문제 파일 업로드 (JSON)</h4>
+      <input type="file" id="uploadFileInput" accept=".json" />
+      <button type="button" class="secondary" id="uploadFileBtn" style="margin-top:6px;">파일에서 문제 추가</button>
+      <p style="font-size:11px;color:#6b7280;margin-top:4px;">
+        - 형식: JSON 배열, 각 원소는 {id, chapter, type, text, options[4], answer, explanation}<br/>
+        - 예: <code>cre_questions_20_example.json</code> 파일 업로드 → 20문제 한 번에 추가
+      </p>
+
       <form id="addQuestionForm">
         <label>문제 ID (예: Q100-1)</label>
         <input type="text" id="addId" placeholder="Q100-1" required />
@@ -861,3 +870,4 @@ setupGate();
 </script>
 </body>
 </html>
+
