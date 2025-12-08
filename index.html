@@ -27,7 +27,7 @@
   .explanation { font-size:13px; margin-top:4px; color:#334155; }
 
   .panel-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:20px; }
-  .panel { flex:1; min-width:260px; background:#f9fafb; border-radius:8px; padding:10px 12px; border:1px solid #e5e7eb; max-height:260px; overflow:auto; }
+  .panel { flex:1; min-width:260px; background:#f9fafb; border-radius:8px; padding:10px 12px; border:1px solid #e5e7eb; max-height:280px; overflow:auto; }
   .panel h3 { margin-top:0; font-size:15px; }
   .note-item, .score-item { font-size:12px; margin-bottom:6px; border-bottom:1px dashed #e5e7eb; padding-bottom:4px; }
 
@@ -143,15 +143,6 @@
     </div>
     <div class="panel">
       <h3>➕ 문제 추가 (이 브라우저에 저장)</h3>
-            <hr style="margin:10px 0;">
-      <h4 style="font-size:13px;">📁 문제 파일 업로드 (JSON)</h4>
-      <input type="file" id="uploadFileInput" accept=".json" />
-      <button type="button" class="secondary" id="uploadFileBtn" style="margin-top:6px;">파일에서 문제 추가</button>
-      <p style="font-size:11px;color:#6b7280;margin-top:4px;">
-        - 형식: JSON 배열, 각 원소는 {id, chapter, type, text, options[4], answer, explanation}<br/>
-        - 예: <code>cre_questions_20_example.json</code> 파일 업로드 → 20문제 한 번에 추가
-      </p>
-
       <form id="addQuestionForm">
         <label>문제 ID (예: Q100-1)</label>
         <input type="text" id="addId" placeholder="Q100-1" required />
@@ -182,6 +173,16 @@
         <textarea id="addExplanation" placeholder="간단한 해설" required></textarea>
         <button type="submit" class="secondary" style="margin-top:8px;">문제 추가</button>
       </form>
+
+      <hr style="margin:10px 0;">
+      <h4 style="font-size:13px;">📁 문제 파일 업로드 (JSON)</h4>
+      <input type="file" id="uploadFileInput" accept=".json" />
+      <button type="button" class="secondary" id="uploadFileBtn" style="margin-top:6px;">파일에서 문제 추가</button>
+      <p style="font-size:11px;color:#6b7280;margin-top:4px;">
+        - 형식: JSON 배열, 각 항목은 {id, chapter, type, text, options[4], answer, explanation}<br/>
+        - 예: <code>cre_questions_20_example.json</code> 파일 업로드 → 여러 문제 한 번에 추가
+      </p>
+
       <p style="font-size:11px;color:#6b7280;margin-top:6px;">
         * 이렇게 추가한 문제는 이 브라우저(LocalStorage)에만 저장됩니다.<br/>
         (다른 PC/브라우저에서는 보이지 않음)
@@ -194,7 +195,7 @@
 // ========================
 //  0. 설정: 비밀번호
 // ========================
-const APP_PASSWORD = "cre2025"; // ★ 여기서 비밀번호를 너가 원하는 걸로 바꿔 써도 됨
+const APP_PASSWORD = "cre2025"; // 여기서 원하는 비밀번호로 바꿔도 됨
 
 // ========================
 //  1. 기본 문제 데이터
@@ -600,7 +601,6 @@ function buildQuestionPool() {
       return chMatch && typeMatch;
     });
   } else if (mode === "wrong") {
-    // 오답노트에 있는 문제만
     const wrongIds = notes.map(n => n.id);
     pool = all.filter(q => {
       const inWrong = wrongIds.includes(q.id);
@@ -609,7 +609,6 @@ function buildQuestionPool() {
       return inWrong && chMatch && typeMatch;
     });
   } else if (mode === "weak") {
-    // 약점 챕터: 오답이 가장 많은 chapter 선택
     if (!notes.length) {
       alert("오답노트가 비어 있어 약점 챕터를 계산할 수 없습니다. 먼저 몇 회 연습 후 다시 시도하세요.");
       return { pool: [], autoChapter: null };
@@ -767,7 +766,7 @@ function submitQuiz(auto=false) {
 }
 
 // ========================
-//  10. 초기화
+// 10. 초기화
 // ========================
 function resetQuiz() {
   stopTimer();
@@ -783,7 +782,7 @@ function resetQuiz() {
 }
 
 // ========================
-//  11. 문제 추가 폼 (사용자 커스텀)
+// 11. 문제 추가 폼 (수동 1문제)
 // ========================
 function setupAddQuestionForm() {
   const form = document.getElementById("addQuestionForm");
@@ -826,8 +825,10 @@ function setupAddQuestionForm() {
     form.reset();
     document.getElementById("addAnswer").value = 0;
   });
-  // ========================
-//  11-1. 문제 파일 업로드 (JSON 여러 개)
+}
+
+// ========================
+// 11-1. 문제 파일 업로드 (JSON 여러 개)
 // ========================
 function setupUploadQuestions() {
   const input = document.getElementById("uploadFileInput");
@@ -893,7 +894,8 @@ function setupUploadQuestions() {
         alert(`파일에서 ${filtered.length}개의 문제가 추가되었습니다!`);
         input.value = "";
       } catch (err) {
-        alert("JSON 파싱 오류: 형식을 다시 확인해주세요.");
+        console.error(err);
+        alert("JSON 파싱 오류: 파일 형식을 다시 확인해주세요.");
       }
     };
 
@@ -901,10 +903,8 @@ function setupUploadQuestions() {
   });
 }
 
-}
-
 // ========================
-//  12. 비밀번호 게이트
+// 12. 비밀번호 게이트
 // ========================
 function setupGate() {
   const overlay = document.getElementById("gateOverlay");
@@ -934,19 +934,15 @@ function setupGate() {
 }
 
 // ========================
-//  13. 초기화
+// 13. 초기화
 // ========================
 document.getElementById("startBtn").addEventListener("click", startQuiz);
 document.getElementById("submitBtn").addEventListener("click", () => submitQuiz(false));
 document.getElementById("resetBtn").addEventListener("click", resetQuiz);
 
 setupAddQuestionForm();
-setupUploadQuestions();   
+setupUploadQuestions();
 setupGate();
-
 </script>
 </body>
 </html>
-
-
-
