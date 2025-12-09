@@ -3,56 +3,229 @@
 <head>
 <meta charset="UTF-8" />
 <title>CRE Practice CBT</title>
+
+<!-- CSS 영역 — 메시지 ②에서 이곳에 붙여넣음 -->
 <style>
-  body { font-family: Arial, system-ui, sans-serif; margin: 0; padding: 0; background:#f2f4f7; }
-  .container { max-width: 1100px; margin: 20px auto; background:#fff; border-radius:10px; padding:20px 24px 40px; box-shadow:0 4px 12px rgba(0,0,0,0.08); display:none; }
-  h1 { margin-top:0; }
-  .controls { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px; padding:12px; background:#f7f9fc; border-radius:8px; }
-  .controls > div { min-width: 180px; }
-  label { font-size:14px; font-weight:600; display:block; margin-bottom:4px; }
-  select, input[type="number"], input[type="text"], textarea { width:100%; padding:6px 8px; font-size:14px; box-sizing:border-box; }
-  button { padding:8px 14px; font-size:14px; cursor:pointer; border-radius:6px; border:1px solid #1f6feb; background:#1f6feb; color:#fff; }
-  button.secondary { background:#fff; color:#1f2933; border-color:#cbd2e1; }
-  button.danger { background:#e11d48; border-color:#e11d48; color:#fff; }
-  button:disabled { opacity:0.6; cursor:not-allowed; }
-  #timer { font-size:18px; font-weight:bold; color:#e11d48; }
-  #modeDesc { font-size:13px; color:#4b5563; margin-top:4px; }
+/* === CSS WILL BE INSERTED HERE (MESSAGE ②) === */
+  body {
+  font-family: Arial, system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  background:#f2f4f7;
+}
 
-  .question-block { margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid #e5e7eb; }
-  .question-title { font-weight:bold; margin-bottom:8px; }
-  .meta { font-size:12px; color:#6b7280; margin-bottom:4px; }
-  .option { margin:4px 0; font-size:14px; }
-  #resultBox { margin-top:24px; padding:16px; border-radius:8px; background:#ecfeff; border:1px solid #7dd3fc; }
-  #resultBox h3 { margin-top:0; }
-  .explanation { font-size:13px; margin-top:4px; color:#334155; }
+/* 메인 컨테이너 */
+.container {
+  max-width: 1100px;
+  margin: 20px auto;
+  background:#fff;
+  border-radius:10px;
+  padding:20px 24px 40px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  display:none;
+}
 
-  .panel-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:20px; }
-  .panel { flex:1; min-width:260px; background:#f9fafb; border-radius:8px; padding:10px 12px; border:1px solid #e5e7eb; max-height:300px; overflow:auto; }
-  .panel h3 { margin-top:0; font-size:15px; }
-  .note-item, .score-item { font-size:12px; margin-bottom:6px; border-bottom:1px dashed #e5e7eb; padding-bottom:4px; }
+h1 { margin-top:0; }
 
-  .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:999px; margin-left:4px; background:#e5e7eb; }
-  .tag.A { background:#dbeafe; }
-  .tag.C { background:#fef3c7; }
+/* 상단 컨트롤박스 */
+.controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:16px;
+  padding:12px;
+  background:#f7f9fc;
+  border-radius:8px;
+}
 
-  /* 비밀번호 게이트 */
-  #gateOverlay {
-    position:fixed; inset:0; background:rgba(15,23,42,0.9);
-    display:flex; align-items:center; justify-content:center; z-index:9999;
-  }
-  #gateBox {
-    background:#f9fafb; border-radius:12px; padding:24px 26px; width:320px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
-  }
-  #gateBox h2 { margin-top:0; margin-bottom:12px; }
-  #gateMessage { font-size:12px; color:#dc2626; height:16px; margin-top:6px; }
-  #gateBox input { width:100%; padding:8px; margin-top:8px; box-sizing:border-box; }
-  #gateBox button { margin-top:12px; width:100%; }
+.controls > div { min-width: 180px; }
 
-  /* 문제 추가 패널 */
-  #addQuestionForm textarea { height:60px; resize:vertical; }
-  #addQuestionForm .small-input { width:60px; display:inline-block; }
+label {
+  font-size:14px;
+  font-weight:600;
+  display:block;
+  margin-bottom:4px;
+}
+
+select,
+input[type="number"],
+input[type="text"],
+textarea {
+  width:100%;
+  padding:6px 8px;
+  font-size:14px;
+  box-sizing:border-box;
+}
+
+button {
+  padding:8px 14px;
+  font-size:14px;
+  cursor:pointer;
+  border-radius:6px;
+  border:1px solid #1f6feb;
+  background:#1f6feb;
+  color:#fff;
+}
+
+button.secondary {
+  background:#fff;
+  color:#1f2933;
+  border-color:#cbd2e1;
+}
+
+button.danger {
+  background:#e11d48;
+  border-color:#e11d48;
+  color:#fff;
+}
+
+button:disabled {
+  opacity:0.6;
+  cursor:not-allowed;
+}
+
+/* 타이머 */
+#timer {
+  font-size:18px;
+  font-weight:bold;
+  color:#e11d48;
+}
+
+#modeDesc {
+  font-size:13px;
+  color:#4b5563;
+  margin-top:4px;
+}
+
+/* 문제 블록 */
+.question-block {
+  margin-bottom:20px;
+  padding-bottom:12px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.question-title {
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.meta {
+  font-size:12px;
+  color:#6b7280;
+  margin-bottom:4px;
+}
+
+.option { margin:4px 0; font-size:14px; }
+
+/* 결과 박스 */
+#resultBox {
+  margin-top:24px;
+  padding:16px;
+  border-radius:8px;
+  background:#ecfeff;
+  border:1px solid #7dd3fc;
+}
+
+#resultBox h3 { margin-top:0; }
+
+.explanation {
+  font-size:13px;
+  margin-top:4px;
+  color:#334155;
+}
+
+/* 패널들 */
+.panel-row {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+.panel {
+  flex:1;
+  min-width:260px;
+  background:#f9fafb;
+  border-radius:8px;
+  padding:10px 12px;
+  border:1px solid #e5e7eb;
+  max-height:300px;
+  overflow:auto;
+}
+
+.panel h3 {
+  margin-top:0;
+  font-size:15px;
+}
+
+.note-item,
+.score-item {
+  font-size:12px;
+  margin-bottom:6px;
+  border-bottom:1px dashed #e5e7eb;
+  padding-bottom:4px;
+}
+
+/* 태그 */
+.tag {
+  display:inline-block;
+  font-size:11px;
+  padding:1px 6px;
+  border-radius:999px;
+  margin-left:4px;
+  background:#e5e7eb;
+}
+
+.tag.A { background:#dbeafe; }
+.tag.C { background:#fef3c7; }
+
+/* 비밀번호 게이트 */
+#gateOverlay {
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,0.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+#gateBox {
+  background:#f9fafb;
+  border-radius:12px;
+  padding:24px 26px;
+  width:320px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+#gateBox h2 { margin-top:0; margin-bottom:12px; }
+
+#gateMessage {
+  font-size:12px;
+  color:#dc2626;
+  height:16px;
+  margin-top:6px;
+}
+
+#gateBox input {
+  width:100%;
+  padding:8px;
+  margin-top:8px;
+  box-sizing:border-box;
+}
+
+#gateBox button { margin-top:12px; width:100%; }
+
+/* 문제추가 */
+#addQuestionForm textarea { height:60px; resize:vertical; }
+
+#addQuestionForm .small-input {
+  width:60px;
+  display:inline-block;
+}
+
 </style>
+
 </head>
 <body>
 
@@ -60,9 +233,7 @@
 <div id="gateOverlay">
   <div id="gateBox">
     <h2>CRE 연습 사이트</h2>
-    <p style="font-size:13px;color:#4b5563;">
-      비밀번호를 입력하세요.
-    </p>
+    <p style="font-size:13px;color:#4b5563;">비밀번호를 입력하세요.</p>
     <input type="password" id="gatePassword" placeholder="비밀번호" />
     <div id="gateMessage"></div>
     <button id="gateBtn">입장</button>
@@ -72,6 +243,7 @@
   </div>
 </div>
 
+<!-- 메인 컨테이너 -->
 <div class="container" id="appContainer">
   <h1>CRE Practice CBT</h1>
   <p style="font-size:13px;color:#4b5563;">
@@ -79,21 +251,16 @@
     오답과 점수는 브라우저(LocalStorage)에 자동 저장됩니다.
   </p>
 
+  <!-- 상단 옵션 -->
   <div class="controls">
+
     <div>
       <label>챕터 선택</label>
       <select id="chapterSelect">
-        <option value="all">전체</option>
-        <option value="챕터 2 - Reliability Fundamentals">챕터 2 - Reliability Fundamentals</option>
-        <option value="챕터 3 - Risk Management">챕터 3 - Risk Management</option>
-        <option value="챕터 4 - Statistical Concepts">챕터 4 - Statistical Concepts</option>
-        <option value="챕터 5 - Data Management">챕터 5 - Data Management</option>
-        <option value="챕터 6 - Reliability Planning">챕터 6 - Reliability Planning</option>
-        <option value="챕터 7 - Testing and Modeling">챕터 7 - Testing and Modeling</option>
-        <option value="챕터 8 - Reliability Designs">챕터 8 - Reliability Designs</option>
-        <option value="챕터 9 - Maintainability">챕터 9 - Maintainability</option>
+        <!-- 동적으로 채워짐 -->
       </select>
     </div>
+
     <div>
       <label>문제 유형</label>
       <select id="typeSelect">
@@ -102,14 +269,17 @@
         <option value="C">C-type (계산/상황형)</option>
       </select>
     </div>
+
     <div>
       <label>출제 문제 수</label>
       <input id="countInput" type="number" min="1" max="200" value="10" />
     </div>
+
     <div>
       <label>타이머 (분)</label>
       <input id="timerInput" type="number" min="0" max="240" value="60" />
     </div>
+
     <div>
       <label>출제 모드</label>
       <select id="modeSelect">
@@ -118,104 +288,110 @@
         <option value="weak">약점 챕터 모드</option>
       </select>
     </div>
+
     <div style="display:flex;align-items:flex-end;gap:8px;">
       <button id="startBtn">시험 시작</button>
       <button id="submitBtn" class="secondary" disabled>제출</button>
       <button id="resetBtn" class="secondary" disabled>초기화</button>
     </div>
+
     <div style="margin-left:auto; text-align:right;">
       <div id="timer">Timer: OFF</div>
       <div id="modeDesc"></div>
     </div>
+
   </div>
 
+  <!-- 문제 표시 영역 -->
   <div id="quizBox"></div>
+
+  <!-- 결과 표시 영역 -->
   <div id="resultBox"></div>
 
+  <!-- 패널 영역 -->
   <div class="panel-row">
+
+    <!-- 오답노트 -->
     <div class="panel">
       <h3>📒 오답노트 (자동 저장)</h3>
       <div id="wrongNotesBox"></div>
       <button class="secondary" onclick="clearWrongNotes()">오답노트 초기화</button>
     </div>
+
+    <!-- 점수 기록 -->
     <div class="panel">
       <h3>📊 점수 기록 (LocalStorage)</h3>
       <div id="scoreHistoryBox"></div>
       <button class="secondary" onclick="clearScoreHistory()">점수 기록 초기화</button>
     </div>
+
+    <!-- 문제 추가 패널 -->
     <div class="panel">
-      <h3>➕ 문제 추가 (이 브라우저에 저장)</h3>
+      <h3>➕ 문제 추가 (브라우저에 저장)</h3>
       <form id="addQuestionForm">
-        <label>문제 ID (예: Q100-1)</label>
-        <input type="text" id="addId" placeholder="Q100-1" required />
+        <label>문제 ID</label>
+        <input type="text" id="addId" placeholder="예: Q100-1" required />
+
         <label>챕터</label>
-        <select id="addChapter">
-          <option value="챕터 2 - Reliability Fundamentals">챕터 2 - Reliability Fundamentals</option>
-          <option value="챕터 3 - Risk Management">챕터 3 - Risk Management</option>
-          <option value="챕터 4 - Statistical Concepts">챕터 4 - Statistical Concepts</option>
-          <option value="챕터 5 - Data Management">챕터 5 - Data Management</option>
-          <option value="챕터 6 - Reliability Planning">챕터 6 - Reliability Planning</option>
-          <option value="챕터 7 - Testing and Modeling">챕터 7 - Testing and Modeling</option>
-          <option value="챕터 8 - Reliability Designs">챕터 8 - Reliability Designs</option>
-          <option value="챕터 9 - Maintainability">챕터 9 - Maintainability</option>
-        </select>
+        <select id="addChapter"></select>
+
         <label>유형</label>
         <select id="addType">
-          <option value="A">A-type (개념형)</option>
-          <option value="C">C-type (계산/상황형)</option>
+          <option value="A">A-type</option>
+          <option value="C">C-type</option>
         </select>
+
         <label>문제 내용</label>
         <textarea id="addText" required></textarea>
-        <label>보기 A / B / C / D</label>
+
+        <label>보기 A/B/C/D</label>
         <input type="text" id="addOpA" placeholder="보기 A" required />
         <input type="text" id="addOpB" placeholder="보기 B" required />
         <input type="text" id="addOpC" placeholder="보기 C" required />
         <input type="text" id="addOpD" placeholder="보기 D" required />
+
         <label>정답 (0=A, 1=B, 2=C, 3=D)</label>
-        <input type="number" id="addAnswer" class="small-input" min="0" max="3" value="0" required />
+        <input type="number" id="addAnswer" min="0" max="3" class="small-input" value="0" required />
+
         <label>해설</label>
-        <textarea id="addExplanation" placeholder="간단한 해설" required></textarea>
+        <textarea id="addExplanation" required></textarea>
+
         <button type="submit" class="secondary" style="margin-top:8px;">문제 추가</button>
       </form>
 
       <hr style="margin:10px 0;">
-      <h4 style="font-size:13px;">📁 문제 파일 업로드 (JSON)</h4>
+      <h4>📁 JSON 문제 파일 업로드</h4>
       <input type="file" id="uploadFileInput" accept=".json" />
-      <button type="button" class="secondary" id="uploadFileBtn" style="margin-top:6px;">파일에서 문제 추가</button>
-      <p style="font-size:11px;color:#6b7280;margin-top:4px;">
-        - 형식: JSON 배열, 각 항목은 {id, chapter, type, text, options[4], answer, explanation}<br/>
-        - 예: <code>cre_questions_xxx.json</code> 파일 업로드 → 여러 문제 한 번에 추가
+      <button class="secondary" id="uploadFileBtn" style="margin-top:6px;">파일에서 문제 추가</button>
+
+      <p style="font-size:11px;color:#6b7280;">
+        JSON 배열 형식: { id, chapter, type, text, options[4], answer, explanation }
       </p>
 
       <hr style="margin:10px 0;">
-      <h4 style="font-size:13px;">📦 사용자 추가 문제 관리</h4>
-      <button type="button" class="danger" id="clearCustomBtn" style="margin-top:4px;">사용자 추가 문제 모두 삭제</button>
-      <button type="button" class="secondary" id="exportCustomBtn" style="margin-top:4px;">현재 추가 문제 JSON 다운로드</button>
-      <p style="font-size:11px;color:#6b7280;margin-top:4px;">
-        - 다운로드한 JSON을 다른 PC에서 이 사이트 열고<br/>
-        &nbsp;&nbsp;위의 “파일에서 문제 추가”로 업로드하면 문제은행 복원 가능<br/>
-        - 삭제 버튼은 <b>사용자 추가 문제만</b> 지우고, 기본 문제·오답·점수는 그대로 유지됩니다.
-      </p>
-
-      <p style="font-size:11px;color:#6b7280;margin-top:6px;">
-        * 사용자 추가 문제는 이 브라우저(LocalStorage)에만 저장됩니다.<br/>
-        (다른 PC/브라우저에서는 보이지 않음)
-      </p>
+      <h4>📦 사용자 문제 관리</h4>
+      <button class="danger" id="clearCustomBtn">사용자 추가 문제 삭제</button>
+      <button class="secondary" id="exportCustomBtn" style="margin-top:4px;">사용자 문제 JSON 다운로드</button>
     </div>
+
   </div>
+
 </div>
 
+<!-- JS 영역 — 메시지 ③에서 이곳에 붙여넣음 -->
 <script>
-// ========================
-//  0. 설정: 비밀번호
-// ========================
-const APP_PASSWORD = "cre2025"; // 여기서 원하는 비밀번호로 바꿔도 됨
+/* === JAVASCRIPT WILL BE INSERTED HERE (MESSAGE ③) === */
 
-// ========================
-//  1. 기본 문제 데이터 (챕터명 반영)
-// ========================
+  /***********************************************************
+ * 0. 설정: 비밀번호
+ ***********************************************************/
+const APP_PASSWORD = "cre2025";  // 필요하면 변경 가능
+
+/***********************************************************
+ * 1. 기본 문제 데이터 (챕터명 반영)
+ ***********************************************************/
 const BASE_QUESTIONS = [
-  // 챕터 4 - Statistical Concepts (옛 Stats)
+  // 챕터 4 - Statistical Concepts
   {
     id: "Q1",
     chapter: "챕터 4 - Statistical Concepts",
@@ -223,13 +399,13 @@ const BASE_QUESTIONS = [
     text: "Exponential 분포에서 MTBF = 800시간일 때, 400시간의 신뢰도 R(400)에 가장 가까운 값은?",
     options: ["0.50","0.61","0.37","0.80"],
     answer: 1,
-    explanation: "R(t) = exp(-t/MTBF) = exp(-400/800) = exp(-0.5) ≈ 0.6065 → 0.61",
+    explanation: "R = exp(-t/MTBF) = exp(-0.5) ≈ 0.6065 → 0.61",
   },
   {
     id: "Q2",
     chapter: "챕터 4 - Statistical Concepts",
     type: "C",
-    text: "Exponential 수명시험에서 총 시험시간 T = 4000h, 고장수 r = 3일 때, 90% 하한 MTBF를 구하는 올바른 식은?",
+    text: "Exponential 수명시험에서 총 시험시간 T = 4000h, 고장수 r = 3일 때 90% MTBF 하한은?",
     options: [
       "2T / χ²(2r; lower 0.10)",
       "2T / χ²(2r; upper 0.10)",
@@ -237,368 +413,392 @@ const BASE_QUESTIONS = [
       "T / (r-1)"
     ],
     answer: 1,
-    explanation: "Lower one-sided LCB = 2T / χ²(2r; upper α). 여기서 α=0.10.",
+    explanation: "Lower one-sided LCB = 2T / χ²(2r; upper α).",
   },
   {
     id: "Q3",
     chapter: "챕터 4 - Statistical Concepts",
     type: "C",
-    text: "정규분포(μ=50, σ=10)를 따를 때, 40시간 내 고장날 확률에 가장 가까운 값은?",
-    options: [
-      "약 0.16",
-      "약 0.30",
-      "약 0.50",
-      "약 0.84"
-    ],
+    text: "정규분포(μ=50, σ=10)에서 40 이하일 확률은?",
+    options: ["약 0.16","약 0.30","약 0.50","약 0.84"],
     answer: 0,
-    explanation: "Z=(40-50)/10=-1 → P(X≤40)=Φ(-1)≈0.1587 → 약 0.16",
+    explanation: "Z=-1 → Φ(-1)=0.1587",
   },
   {
     id: "Q4",
     chapter: "챕터 4 - Statistical Concepts",
     type: "A",
-    text: "Exponential 분포에서 MTBF 시점에서의 신뢰도 R(MTBF)에 가장 가까운 값은?",
+    text: "Exponential 분포에서 R(MTBF) 값은?",
     options: ["0.50","0.37","0.63","0.90"],
     answer: 1,
-    explanation: "R(MTBF)=exp(-1)≈0.3679 → 약 0.37",
+    explanation: "R=exp(-1)=0.3679",
   },
   {
     id: "Q5",
     chapter: "챕터 4 - Statistical Concepts",
     type: "A",
-    text: "Weibull 분포에서 β(형상모수)가 1보다 클 때 의미는?",
+    text: "Weibull 분포에서 β > 1 의미는?",
     options: [
-      "초기 고장 영역",
-      "마모 고장 영역, 시간이 지날수록 고장률 증가",
+      "초기고장(Infant Mortality)",
+      "마모고장(Wear-out), 고장률 증가",
       "고장률 일정",
-      "무작위 고장 영역"
+      "무작위(Random)"
     ],
     answer: 1,
-    explanation: "β>1 → 고장률이 증가하는 마모(wear-out) 영역.",
+    explanation: "β>1 → 고장률 증가",
   },
 
-  // 챕터 7 - Testing and Modeling (옛 Testing)
+  // 챕터 7 - Testing and Modeling
   {
     id: "Q6",
     chapter: "챕터 7 - Testing and Modeling",
     type: "A",
-    text: "ALT(Accelerated Life Testing)의 가장 핵심 목적은?",
+    text: "ALT의 핵심 목적은?",
     options: [
-      "설계 한계 하중을 찾기 위해",
-      "단기간 시험으로 정상사용 조건에서의 수명을 예측하기 위해",
-      "공정능력(Cpk)을 향상시키기 위해",
-      "파괴 시험으로 고장 모드를 제거하기 위해"
+      "설계한계 찾기",
+      "단기간 데이터 수집 후 정상조건 수명 예측",
+      "Cpk 향상",
+      "파괴시험 후 고장 제거"
     ],
     answer: 1,
-    explanation: "ALT는 짧은 시간에 데이터를 모아 정상 사용조건 수명을 예측하는 것이 핵심.",
+    explanation: "Accelerated Life Testing은 짧은 시간 내 수명 예측 목적",
   },
   {
     id: "Q7",
     chapter: "챕터 7 - Testing and Modeling",
     type: "A",
-    text: "Peck 모델에 대한 설명으로 옳은 것은?",
+    text: "Peck 모델은 무엇을 고려하는가?",
     options: [
-      "온도만 고려하는 가속 모델이다.",
-      "습도만 고려하는 가속 모델이다.",
-      "온도와 상대습도를 모두 고려하는 가속 모델이다.",
-      "전압과 진동을 동시에 고려하는 모델이다."
+      "온도만",
+      "습도만",
+      "온도 + 습도",
+      "전압 + 진동"
     ],
     answer: 2,
-    explanation: "Peck: 온도 + 습도 기반 가속 모델.",
+    explanation: "Peck = 온도 + 습도",
   },
   {
     id: "Q8",
     chapter: "챕터 7 - Testing and Modeling",
     type: "A",
-    text: "Step-stress 시험에 대한 설명으로 가장 올바른 것은?",
+    text: "Step-stress 시험 정의는?",
     options: [
-      "시간에 따라 일정한 스트레스를 유지하는 시험이다.",
-      "시간이 지남에 따라 스트레스 수준을 단계적으로 증가시키는 시험이다.",
-      "시간이 지남에 따라 스트레스 수준을 단계적으로 감소시키는 시험이다.",
-      "스트레스를 무작위로 변화시키는 시험이다."
+      "스트레스 일정",
+      "시간에 따라 단계적으로 증가",
+      "시간에 따라 단계적으로 감소",
+      "무작위 스트레스"
     ],
     answer: 1,
-    explanation: "Step-stress: 특정 시간 간격마다 스트레스 레벨을 올려가는 시험.",
+    explanation: "Step-stress = 단계적으로 스트레스 상승",
   },
   {
     id: "Q9",
     chapter: "챕터 7 - Testing and Modeling",
     type: "C",
-    text: "신뢰도 0.7, 0.8, 0.9인 세 서브시스템이 병렬 구성일 때 시스템 신뢰도에 가장 가까운 값은?",
+    text: "0.7, 0.8, 0.9 병렬 시스템 R은?",
     options: ["0.90","0.97","0.50","0.80"],
     answer: 1,
-    explanation: "R=1-(1-.7)(1-.8)(1-.9)=1-(0.3*0.2*0.1)=1-0.006=0.994(문제 보기 중 가장 근접값 선택).",
+    explanation: "R = 1-(0.3)(0.2)(0.1)=0.994 → 보기 중 0.97이 가장 근접",
   },
   {
     id: "Q10",
     chapter: "챕터 7 - Testing and Modeling",
     type: "C",
-    text: "Perfect switching standby 시스템에서 Active 유닛 신뢰도=0.9, Standby=0.8일 때 시스템 신뢰도는?",
+    text: "Perfect Standby: Active=0.9, Standby=0.8 시스템 R은?",
     options: ["0.90","0.92","0.98","0.99"],
     answer: 2,
-    explanation: "Rsys = Ra + (1-Ra)Rs = 0.9 + 0.1*0.8 = 0.98",
+    explanation: "Rsys=0.9+0.1×0.8=0.98",
   },
 
-  // 챕터 3 - Risk Management (옛 Risk)
+  // 챕터 3 - Risk Management
   {
     id: "Q11",
     chapter: "챕터 3 - Risk Management",
     type: "A",
-    text: "공통원인고장(Common Cause Failure)에 대한 설명으로 올바른 것은?",
+    text: "Common Cause Failure 정의?",
     options: [
-      "독립적인 원인으로 발생하는 다수의 고장",
-      "중복 시스템의 여러 경로가 동일한 원인으로 동시에 고장나는 현상",
-      "환경과 무관한 랜덤 고장",
-      "한 부품이 고장난 뒤 수리되는 과정"
+      "독립 고장이 동시에 발생",
+      "동일 원인으로 병렬 경로 동시에 고장",
+      "환경 무관 랜덤고장",
+      "수리 과정 고장"
     ],
     answer: 1,
-    explanation: "CCF: 한 원인이 여러 경로를 동시에 죽이는 형태.",
+    explanation: "CCF = 하나의 원인이 여러 경로 고장 유발",
   },
   {
     id: "Q12",
     chapter: "챕터 3 - Risk Management",
     type: "A",
-    text: "FTA(Fault Tree Analysis)의 대표적인 장점은?",
+    text: "FTA 장점은?",
     options: [
-      "모든 고장 모드를 동시에 분석할 수 있다.",
-      "시간에 따른 고장률 추세를 분석한다.",
-      "하나의 특정 Top event에 집중해 원인을 분석할 수 있다.",
-      "설계 변수 간 통계적 상호작용을 분석한다."
+      "전체 고장 모드 분석",
+      "시간별 고장률 추세분석",
+      "Top Event 중심 원인 분석",
+      "요인 상호작용 분석"
     ],
     answer: 2,
-    explanation: "FTA는 Top event(시스템 고장)를 정해놓고 그 원인을 논리적으로 추적.",
+    explanation: "FTA = Top Event 중심 분석 기법",
   },
 
-  // 챕터 8 - Reliability Designs (옛 Design)
+  // 챕터 8 - Reliability Designs
   {
     id: "Q13",
     chapter: "챕터 8 - Reliability Designs",
     type: "A",
-    text: "DOE에서 '블록(block)'의 올바른 정의는?",
+    text: "DOE에서 블록(block)의 정의?",
     options: [
-      "요인의 수준(level)을 의미한다.",
-      "서로 다른 처리를 비교적 균질한 단위로 묶은 집단.",
-      "반복(run)과 같은 개념이다.",
-      "상호작용 효과를 의미한다."
+      "요인 수준",
+      "균일한 집단(외부변동 통제 목적)",
+      "반복(run)",
+      "상호작용 효과"
     ],
     answer: 1,
-    explanation: "블록: 균질한 조건 그룹으로, 처리 간 비교를 공정하게 하기 위함.",
+    explanation: "블록 = 균일한 그룹",
   },
   {
     id: "Q14",
     chapter: "챕터 8 - Reliability Designs",
     type: "A",
-    text: "Taguchi Loss Function에 대한 설명으로 가장 올바른 것은?",
+    text: "Taguchi Loss Function 형태?",
     options: [
-      "규격 내에 있으면 손실은 0이다.",
-      "품질 특성이 목표값에서 벗어날수록 손실이 제곱에 비례해 증가한다.",
-      "손실은 항상 선형적으로 증가한다.",
-      "손실은 일정 상수이다."
+      "규격 내 손실 0",
+      "손실은 (y-T)^2 에 비례",
+      "선형 증가",
+      "상수"
     ],
     answer: 1,
-    explanation: "L = k(y-T)^2 형태 → 제곱에 비례.",
+    explanation: "L=k(y-T)^2",
   },
   {
     id: "Q15",
     chapter: "챕터 8 - Reliability Designs",
     type: "A",
-    text: "강건설계(Robust Design)의 핵심 목적은?",
+    text: "Robust Design 핵심?",
     options: [
-      "설계 비용 최소화",
-      "공정능력(Cpk) 최대화",
-      "잡음인자에 대한 민감도 감소로 성능 변동 최소화",
+      "비용 최소화",
+      "Cpk 최대화",
+      "Noise 요인 민감도 감소",
       "시험 시간 단축"
     ],
     answer: 2,
-    explanation: "Robust Design = Noise에 덜 민감한 설계.",
+    explanation: "강건설계 = Noise Sensitivity ↓",
   },
 
-  // 챕터 9 - Maintainability (옛 Maintain)
+  // 챕터 9 - Maintainability
   {
     id: "Q16",
     chapter: "챕터 9 - Maintainability",
     type: "A",
-    text: "RCM(Reliability-Centered Maintenance)의 가장 근본적인 목적은?",
+    text: "RCM 목적?",
     options: [
-      "전체 유지보수 비용을 최소화하기 위해서",
-      "시스템의 신뢰성과 가용성을 추정하기 위해서",
-      "우선순위가 높은 고장 모드에 대해 적절한 예방 보전 전략을 설정하기 위해서",
-      "모든 부품을 동일 주기로 교체하기 위해서"
+      "전체 유지비 최소화",
+      "시스템 가용성 추정",
+      "중요 고장 모드 중심 예방보전 정의",
+      "전체 부품 동일주기 교체"
     ],
     answer: 2,
-    explanation: "RCM = 중요 고장 모드에 대한 최적 예방보전 정의가 목적.",
+    explanation: "RCM = 중요 고장모드 예방 중점",
   },
   {
     id: "Q17",
     chapter: "챕터 9 - Maintainability",
     type: "C",
-    text: "어떤 시스템의 MTBM=1700h, MDT=34h일 때 Operational Availability Ao에 가장 가까운 값은?",
+    text: "MTBM=1700h, MDT=34h → Ao?",
     options: ["0.90","0.95","0.98","0.99"],
     answer: 2,
-    explanation: "Ao = 1700/(1700+34) ≈ 1700/1734 ≈ 0.981",
+    explanation: "Ao = 1700 / (1700+34) ≈ 0.981",
   },
 ];
 
-// ========================
-//  2. LocalStorage 헬퍼
-// ========================
+/***********************************************************
+ * 2. LocalStorage Helper
+ ***********************************************************/
 function loadWrongNotes() {
   try { return JSON.parse(localStorage.getItem("creWrongNotes") || "[]"); }
   catch { return []; }
 }
-function saveWrongNotes(notes) {
-  localStorage.setItem("creWrongNotes", JSON.stringify(notes));
-}
-function loadScoreHistory() {
+function saveWrongNotes(v){ localStorage.setItem("creWrongNotes", JSON.stringify(v)); }
+
+function loadScoreHistory(){
   try { return JSON.parse(localStorage.getItem("creScoreHistory") || "[]"); }
   catch { return []; }
 }
-function saveScoreHistory(hist) {
-  localStorage.setItem("creScoreHistory", JSON.stringify(hist));
-}
-function loadCustomQuestions() {
+function saveScoreHistory(v){ localStorage.setItem("creScoreHistory", JSON.stringify(v)); }
+
+function loadCustomQuestions(){
   try { return JSON.parse(localStorage.getItem("creCustomQuestions") || "[]"); }
   catch { return []; }
 }
-function saveCustomQuestions(list) {
-  localStorage.setItem("creCustomQuestions", JSON.stringify(list));
+function saveCustomQuestions(v){
+  localStorage.setItem("creCustomQuestions", JSON.stringify(v));
 }
 
-// BASE + 사용자 추가 문제 합치기
-function getAllQuestions() {
+/***********************************************************
+ * 3. 동적 챕터 목록 생성 기능
+ ***********************************************************/
+function refreshChapterDropdown() {
+  const chapterSelect = document.getElementById("chapterSelect");
+  const addChapterSelect = document.getElementById("addChapter");
+
+  const base = BASE_QUESTIONS;
   const custom = loadCustomQuestions();
-  return BASE_QUESTIONS.concat(custom);
+  const all = base.concat(custom);
+
+  const chapterSet = new Set(["전체"]);
+  all.forEach(q => chapterSet.add(q.chapter));
+
+  chapterSelect.innerHTML = "";
+  addChapterSelect.innerHTML = "";
+
+  chapterSet.forEach(ch => {
+    chapterSelect.innerHTML += `<option value="${ch === '전체' ? 'all' : ch}">${ch}</option>`;
+    if (ch !== "전체") {
+      addChapterSelect.innerHTML += `<option value="${ch}">${ch}</option>`;
+    }
+  });
 }
 
-// ========================
-//  3. 오답노트 / 점수 기록 표시
-// ========================
+/***********************************************************
+ * 4. BASE + Custom 문제 합치기
+ ***********************************************************/
+function getAllQuestions() {
+  return BASE_QUESTIONS.concat(loadCustomQuestions());
+}
+
+/***********************************************************
+ * 5. 오답노트 / 점수 표시
+ ***********************************************************/
 function renderWrongNotes() {
   const box = document.getElementById("wrongNotesBox");
   const notes = loadWrongNotes();
+
   if (!notes.length) {
-    box.innerHTML = "<div style='font-size:12px;color:#6b7280;'>저장된 오답이 없습니다.</div>";
+    box.innerHTML = "<div style='font-size:12px;color:#6b7280;'>오답 없음</div>";
     return;
   }
+
   box.innerHTML = notes.map(n => `
     <div class="note-item">
       <b>${n.id}</b> <span class="tag ${n.type}">${n.type}</span>
-      <div style="margin-top:2px;">${n.text}</div>
+      <div>${n.text}</div>
       <div style="font-size:11px;color:#6b7280;">
-        챕터: ${n.chapter} / 틀린 횟수: ${n.missCount} / 마지막: ${n.lastDate}
+        챕터: ${n.chapter} · 횟수: ${n.missCount} · 마지막: ${n.lastDate}
       </div>
     </div>
   `).join("");
 }
+
 function renderScoreHistory() {
   const box = document.getElementById("scoreHistoryBox");
   const hist = loadScoreHistory();
   if (!hist.length) {
-    box.innerHTML = "<div style='font-size:12px;color:#6b7280;'>저장된 점수 기록이 없습니다.</div>";
+    box.innerHTML = "<div style='font-size:12px;color:#6b7280;'>기록 없음</div>";
     return;
   }
+
   box.innerHTML = hist.slice().reverse().map(h => `
     <div class="score-item">
-      <b>${h.date}</b> - 점수 ${h.correct}/${h.total} (${Math.round(h.correct/h.total*100)}%)
-      <div style="font-size:11px;color:#6b7280;">
-        모드: ${h.mode} / 소요: ${h.durationSec}s
-      </div>
+      <b>${h.date}</b> — ${h.correct}/${h.total} (${Math.round(h.correct/h.total*100)}%)
+      <div style="font-size:11px;color:#6b7280;">${h.mode} · ${h.durationSec}s</div>
     </div>
   `).join("");
 }
-function clearWrongNotes() {
-  if (!confirm("오답노트를 모두 삭제할까요?")) return;
-  saveWrongNotes([]);
-  renderWrongNotes();
+
+function clearWrongNotes(){
+  if(confirm("오답노트를 모두 삭제할까요?")){
+    saveWrongNotes([]);
+    renderWrongNotes();
+  }
 }
-function clearScoreHistory() {
-  if (!confirm("점수 기록을 모두 삭제할까요?")) return;
-  saveScoreHistory([]);
-  renderScoreHistory();
+function clearScoreHistory(){
+  if(confirm("점수 기록을 삭제할까요?")){
+    saveScoreHistory([]);
+    renderScoreHistory();
+  }
 }
 
-// ========================
-//  4. 타이머
-// ========================
+/***********************************************************
+ * 6. 타이머
+ ***********************************************************/
 let timerId = null;
 let timerSeconds = 0;
 let quizStarted = false;
 let quizStartTime = null;
 let currentQuiz = [];
 
-function updateTimerDisplay() {
+function updateTimerDisplay(){
   const el = document.getElementById("timer");
-  if (!timerSeconds || timerSeconds < 0) {
+  if (timerSeconds <= 0){
     el.textContent = "Timer: OFF";
     return;
   }
-  const m = String(Math.floor(timerSeconds / 60)).padStart(2,"0");
-  const s = String(timerSeconds % 60).padStart(2,"0");
+  const m = String(Math.floor(timerSeconds/60)).padStart(2,"0");
+  const s = String(timerSeconds%60).padStart(2,"0");
   el.textContent = `남은 시간: ${m}:${s}`;
 }
-function startTimer(seconds) {
+
+function startTimer(sec){
   clearInterval(timerId);
-  timerSeconds = seconds;
+  timerSeconds = sec;
   updateTimerDisplay();
-  if (seconds <= 0) return;
-  timerId = setInterval(() => {
+  if(sec <= 0) return;
+
+  timerId = setInterval(()=>{
     timerSeconds--;
     updateTimerDisplay();
-    if (timerSeconds <= 0) {
+    if(timerSeconds <= 0){
       clearInterval(timerId);
-      alert("시간 종료! 자동 제출합니다.");
+      alert("시간 종료! 자동 제출됩니다.");
       submitQuiz(true);
     }
-  }, 1000);
-}
-function stopTimer() {
-  clearInterval(timerId);
+  },1000);
 }
 
-// ========================
-//  5. 유틸: 섞기
-// ========================
-function shuffleArray(arr) {
+function stopTimer(){ clearInterval(timerId); }
+
+/***********************************************************
+ * 7. 문제 섞기
+ ***********************************************************/
+function shuffleArray(arr){
   const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
   }
   return a;
 }
 
-// ========================
-//  6. 퀴즈 렌더링
-// ========================
-function renderQuiz() {
+/***********************************************************
+ * 8. 퀴즈 화면 렌더링
+ ***********************************************************/
+function renderQuiz(){
   const box = document.getElementById("quizBox");
   box.innerHTML = "";
-  currentQuiz.forEach((q, idx) => {
-    let html = `<div class="question-block">
-      <div class="question-title">Q${idx+1}. ${q.text}</div>
-      <div class="meta">
-        ID: ${q.id} · 챕터: ${q.chapter} · 유형: ${q.type}
-      </div>
+
+  currentQuiz.forEach((q, idx)=>{
+    let html = `
+      <div class="question-block">
+        <div class="question-title">Q${idx+1}. ${q.text}</div>
+        <div class="meta">ID: ${q.id} · ${q.chapter} · ${q.type}</div>
     `;
-    q.options.forEach((op, j) => {
+    q.options.forEach((op, j)=>{
       html += `
         <div class="option">
           <label>
             <input type="radio" name="q${idx}" value="${j}" />
             ${String.fromCharCode(65+j)}. ${op}
           </label>
-        </div>
-      `;
+        </div>`;
     });
     html += "</div>";
     box.innerHTML += html;
   });
 }
 
-// ========================
-//  7. 출제 모드별 풀(pool) 만들기
-// ========================
-function buildQuestionPool() {
+/***********************************************************
+ * 9. 출제 풀 생성 (normal / wrong / weak)
+ ***********************************************************/
+function buildQuestionPool(){
   const chapter = document.getElementById("chapterSelect").value;
   const qType   = document.getElementById("typeSelect").value;
   const mode    = document.getElementById("modeSelect").value;
@@ -608,148 +808,153 @@ function buildQuestionPool() {
 
   let pool = [];
 
-  if (mode === "normal") {
-    pool = all.filter(q => {
-      const chMatch = (chapter === "all" || q.chapter === chapter);
-      const typeMatch = (qType === "all" || q.type === qType);
-      return chMatch && typeMatch;
-    });
-  } else if (mode === "wrong") {
-    const wrongIds = notes.map(n => n.id);
-    pool = all.filter(q => {
-      const inWrong = wrongIds.includes(q.id);
-      const chMatch = (chapter === "all" || q.chapter === chapter);
-      const typeMatch = (qType === "all" || q.type === qType);
-      return inWrong && chMatch && typeMatch;
-    });
-  } else if (mode === "weak") {
-    if (!notes.length) {
-      alert("오답노트가 비어 있어 약점 챕터를 계산할 수 없습니다. 먼저 몇 회 연습 후 다시 시도하세요.");
-      return { pool: [], autoChapter: null };
+  if (mode === "normal"){
+    pool = all.filter(q =>
+      (chapter==="all" || q.chapter===chapter) &&
+      (qType==="all" || q.type===qType)
+    );
+  }
+
+  else if (mode === "wrong"){
+    const wrongIds = notes.map(n=>n.id);
+    pool = all.filter(q =>
+      wrongIds.includes(q.id) &&
+      (chapter==="all" || q.chapter===chapter) &&
+      (qType==="all" || q.type===qType)
+    );
+  }
+
+  else if (mode === "weak"){
+    if (!notes.length){
+      alert("오답노트가 없습니다. 약점 챕터 계산 불가.");
+      return { pool: [], autoChapter:null };
     }
+
     const counts = {};
-    notes.forEach(n => {
-      counts[n.chapter] = (counts[n.chapter] || 0) + n.missCount;
+    notes.forEach(n=>{
+      counts[n.chapter] = (counts[n.chapter]||0) + n.missCount;
     });
-    let weakChapter = null;
-    let maxCount = -1;
-    Object.keys(counts).forEach(ch => {
-      if (counts[ch] > maxCount) {
-        maxCount = counts[ch];
+
+    let weakChapter=null, max=-1;
+    Object.keys(counts).forEach(ch=>{
+      if(counts[ch] > max){
+        max = counts[ch];
         weakChapter = ch;
       }
     });
-    const typeFilter = qType;
-    pool = all.filter(q => {
-      const chMatch = (q.chapter === weakChapter);
-      const typeMatch = (typeFilter === "all" || q.type === typeFilter);
-      return chMatch && typeMatch;
-    });
-    return { pool, autoChapter: weakChapter };
+
+    pool = all.filter(q =>
+      q.chapter === weakChapter &&
+      (qType==="all" || q.type===qType)
+    );
+
+    return { pool, autoChapter:weakChapter };
   }
 
-  return { pool, autoChapter: null };
+  return { pool, autoChapter:null };
 }
 
-// ========================
-//  8. 퀴즈 시작
-// ========================
-function startQuiz() {
-  const count   = Number(document.getElementById("countInput").value || "0");
-  const timerMin= Number(document.getElementById("timerInput").value || "0");
-  const mode    = document.getElementById("modeSelect").value;
+/***********************************************************
+ * 10. 퀴즈 시작
+ ***********************************************************/
+function startQuiz(){
+  const count = Number(document.getElementById("countInput").value);
+  const timerMin = Number(document.getElementById("timerInput").value);
+  const mode = document.getElementById("modeSelect").value;
 
   const { pool, autoChapter } = buildQuestionPool();
-  if (!pool || !pool.length) {
-    alert("선택한 조건에 해당하는 문제가 없습니다.");
+  if(!pool.length){
+    alert("출제 가능한 문제가 없습니다.");
     return;
   }
 
-  const shuffled = shuffleArray(pool);
-  currentQuiz = shuffled.slice(0, Math.min(count || pool.length, pool.length));
-
+  currentQuiz = shuffleArray(pool).slice(0, count || pool.length);
   renderQuiz();
-  document.getElementById("resultBox").innerHTML = "";
+
   quizStarted = true;
   quizStartTime = Date.now();
 
+  document.getElementById("resultBox").innerHTML = "";
   document.getElementById("startBtn").disabled = true;
   document.getElementById("submitBtn").disabled = false;
   document.getElementById("resetBtn").disabled = false;
 
-  const chapter = document.getElementById("chapterSelect").value;
-  const qType   = document.getElementById("typeSelect").value;
+  let desc = [];
+  desc.push(mode==="normal" ? "일반" :
+            mode==="wrong"  ? "오답만" :
+            "약점 챕터");
 
-  const modeDesc = [];
-  if (mode === "normal") modeDesc.push("일반");
-  if (mode === "wrong")  modeDesc.push("오답만");
-  if (mode === "weak")   modeDesc.push("약점 챕터");
-
-  if (mode !== "weak") {
-    modeDesc.push(chapter === "all" ? "전체 챕터" : `챕터=${chapter}`);
-  } else if (autoChapter) {
-    modeDesc.push(`약점 챕터=${autoChapter}`);
+  if (mode==="weak" && autoChapter){
+    desc.push(`챕터=${autoChapter}`);
+  } else {
+    const chapter = document.getElementById("chapterSelect").value;
+    desc.push(chapter==="all" ? "전체 챕터" : `챕터=${chapter}`);
   }
-  modeDesc.push(qType === "all" ? "A+C" : `유형=${qType}`);
-  modeDesc.push(`문제수=${currentQuiz.length}`);
-  document.getElementById("modeDesc").textContent = modeDesc.join(" / ");
 
-  startTimer(timerMin > 0 ? timerMin * 60 : 0);
+  const qType = document.getElementById("typeSelect").value;
+  desc.push(qType==="all" ? "A+C" : `유형=${qType}`);
+  desc.push(`문제=${currentQuiz.length}`);
+
+  document.getElementById("modeDesc").textContent = desc.join(" / ");
+
+  startTimer(timerMin>0 ? timerMin*60 : 0);
 }
 
-// ========================
-//  9. 제출 및 채점
-// ========================
-function submitQuiz(auto=false) {
-  if (!quizStarted) return;
+/***********************************************************
+ * 11. 제출 / 채점
+ ***********************************************************/
+function submitQuiz(auto=false){
+  if(!quizStarted) return;
   quizStarted = false;
   stopTimer();
 
-  const durationSec = Math.round((Date.now() - quizStartTime) / 1000);
-
+  const durationSec = Math.round((Date.now()-quizStartTime)/1000);
   let correct = 0;
-  let resultHtml = "";
-  const wrongToAdd = [];
+  let html = "";
+  let wrongToAdd = [];
 
-  currentQuiz.forEach((q, idx) => {
-    const selected = document.querySelector(`input[name="q${idx}"]:checked`);
-    const userIdx = selected ? Number(selected.value) : null;
-    const isCorrect = userIdx === q.answer;
-    if (isCorrect) correct++;
+  currentQuiz.forEach((q, idx)=>{
+    const sel = document.querySelector(`input[name="q${idx}"]:checked`);
+    const userIdx = sel ? Number(sel.value) : null;
+    const ok = (userIdx === q.answer);
+    if(ok) correct++;
 
-    const userText = (userIdx === null) ? "무응답" : `${String.fromCharCode(65+userIdx)}. ${q.options[userIdx]}`;
-    const correctText = `${String.fromCharCode(65+q.answer)}. ${q.options[q.answer]}`;
+    const user = sel ? `${String.fromCharCode(65+userIdx)}. ${q.options[userIdx]}`:"무응답";
+    const corr = `${String.fromCharCode(65+q.answer)}. ${q.options[q.answer]}`;
 
-    resultHtml += `
+    html += `
       <div style="margin-bottom:12px;">
         <b>Q${idx+1} (${q.id})</b><br/>
-        당신의 답: ${userText}<br/>
-        정답: <span style="color:${isCorrect ? '#16a34a' : '#dc2626'}">${correctText}</span>
+        답: ${user}<br/>
+        정답: <span style="color:${ok?'#16a34a':'#dc2626'}">${corr}</span>
         <div class="explanation">${q.explanation}</div>
-      </div>
-    `;
+      </div>`;
 
-    if (!isCorrect) wrongToAdd.push(q);
+    if(!ok) wrongToAdd.push(q);
   });
 
-  const scorePct = Math.round((correct / currentQuiz.length) * 100);
+  const pct = Math.round(correct/currentQuiz.length*100);
+
   document.getElementById("resultBox").innerHTML = `
-    <h3>점수: ${correct} / ${currentQuiz.length} (${scorePct}%)</h3>
-    <div style="font-size:12px;color:#6b7280;">소요 시간: ${durationSec}초 ${auto ? "(타임아웃 자동 제출)" : ""}</div>
-    ${resultHtml}
+    <h3>점수: ${correct} / ${currentQuiz.length} (${pct}%)</h3>
+    <div style="font-size:12px;color:#6b7280;">
+      소요시간: ${durationSec}s ${auto ? "(자동 제출)" : ""}
+    </div>
+    ${html}
   `;
 
   document.getElementById("submitBtn").disabled = true;
 
-  // 오답노트 업데이트
-  if (wrongToAdd.length) {
+  // 오답 저장
+  if(wrongToAdd.length){
     const notes = loadWrongNotes();
-    const nowStr = new Date().toLocaleString();
-    wrongToAdd.forEach(q => {
-      const existing = notes.find(n => n.id === q.id);
-      if (existing) {
-        existing.missCount += 1;
-        existing.lastDate = nowStr;
+    const now = new Date().toLocaleString();
+
+    wrongToAdd.forEach(q=>{
+      const ex = notes.find(n=>n.id===q.id);
+      if(ex){
+        ex.missCount++;
+        ex.lastDate = now;
       } else {
         notes.push({
           id: q.id,
@@ -757,21 +962,21 @@ function submitQuiz(auto=false) {
           chapter: q.chapter,
           type: q.type,
           missCount: 1,
-          lastDate: nowStr
+          lastDate: now
         });
       }
     });
+
     saveWrongNotes(notes);
     renderWrongNotes();
   }
 
-  // 점수 기록 저장
+  // 점수 저장
   const hist = loadScoreHistory();
-  const modeStr = document.getElementById("modeDesc").textContent || "custom";
   hist.push({
-    date: new Date().toLocaleString(),
-    mode: modeStr,
-    total: currentQuiz.length,
+    date:new Date().toLocaleString(),
+    mode:document.getElementById("modeDesc").textContent,
+    total:currentQuiz.length,
     correct,
     durationSec
   });
@@ -779,10 +984,10 @@ function submitQuiz(auto=false) {
   renderScoreHistory();
 }
 
-// ========================
-// 10. 초기화
-// ========================
-function resetQuiz() {
+/***********************************************************
+ * 12. 시험 화면 초기화
+ ***********************************************************/
+function resetQuiz(){
   stopTimer();
   quizStarted = false;
   currentQuiz = [];
@@ -790,211 +995,183 @@ function resetQuiz() {
   document.getElementById("resultBox").innerHTML = "";
   document.getElementById("modeDesc").textContent = "";
   document.getElementById("timer").textContent = "Timer: OFF";
+
   document.getElementById("startBtn").disabled = false;
   document.getElementById("submitBtn").disabled = true;
   document.getElementById("resetBtn").disabled = true;
 }
 
-// ========================
-// 11. 문제 추가 폼 (수동 1문제)
-// ========================
-function setupAddQuestionForm() {
+/***********************************************************
+ * 13. 문제 추가 폼 (1개씩)
+ ***********************************************************/
+function setupAddQuestionForm(){
   const form = document.getElementById("addQuestionForm");
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", e=>{
     e.preventDefault();
-    const id = document.getElementById("addId").value.trim();
-    const chapter = document.getElementById("addChapter").value;
-    const type = document.getElementById("addType").value;
-    const text = document.getElementById("addText").value.trim();
-    const opA = document.getElementById("addOpA").value.trim();
-    const opB = document.getElementById("addOpB").value.trim();
-    const opC = document.getElementById("addOpC").value.trim();
-    const opD = document.getElementById("addOpD").value.trim();
-    const ans = Number(document.getElementById("addAnswer").value);
-    const exp = document.getElementById("addExplanation").value.trim();
 
-    if (!id || !text || !opA || !opB || !opC || !opD || isNaN(ans) || ans < 0 || ans > 3 || !exp) {
+    const q = {
+      id: document.getElementById("addId").value.trim(),
+      chapter: document.getElementById("addChapter").value,
+      type: document.getElementById("addType").value,
+      text: document.getElementById("addText").value.trim(),
+      options: [
+        document.getElementById("addOpA").value.trim(),
+        document.getElementById("addOpB").value.trim(),
+        document.getElementById("addOpC").value.trim(),
+        document.getElementById("addOpD").value.trim(),
+      ],
+      answer: Number(document.getElementById("addAnswer").value),
+      explanation: document.getElementById("addExplanation").value.trim()
+    };
+
+    if(!q.id || !q.text || q.options.some(v=>!v) || q.answer<0 || q.answer>3 || !q.explanation){
       alert("모든 필드를 올바르게 입력해주세요.");
       return;
     }
 
     const custom = loadCustomQuestions();
-    if (custom.find(q => q.id === id) || BASE_QUESTIONS.find(q => q.id === id)) {
-      alert("이미 존재하는 ID입니다. 다른 ID를 사용해주세요.");
+    const exists = custom.some(c=>c.id===q.id) || BASE_QUESTIONS.some(b=>b.id===q.id);
+    if(exists){
+      alert("이미 존재하는 ID입니다.");
       return;
     }
 
-    custom.push({
-      id,
-      chapter,
-      type,
-      text,
-      options: [opA, opB, opC, opD],
-      answer: ans,
-      explanation: exp
-    });
+    custom.push(q);
     saveCustomQuestions(custom);
-    alert("문제가 추가되었습니다! 다음 출제부터 포함됩니다.");
 
+    alert("문제가 추가되었습니다.");
+    refreshChapterDropdown();
     form.reset();
     document.getElementById("addAnswer").value = 0;
   });
 }
 
-// ========================
-// 11-1. 문제 파일 업로드 (JSON 여러 개)
-// ========================
-function setupUploadQuestions() {
+/***********************************************************
+ * 14. JSON 문제 업로드
+ ***********************************************************/
+function setupUploadQuestions(){
   const input = document.getElementById("uploadFileInput");
   const btn = document.getElementById("uploadFileBtn");
-  if (!input || !btn) return;
 
-  btn.addEventListener("click", () => {
-    const file = input.files && input.files[0];
-    if (!file) {
-      alert("업로드할 JSON 파일을 먼저 선택해주세요.");
+  btn.addEventListener("click", ()=>{
+    const file = input.files?.[0];
+    if(!file){
+      alert("JSON 파일을 선택하세요.");
       return;
     }
 
     const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const text = e.target.result;
-        const parsed = JSON.parse(text);
-
-        if (!Array.isArray(parsed)) {
-          alert("JSON 최상위 구조가 배열이어야 합니다. 예시 파일 형식을 확인해주세요.");
-          return;
-        }
-
-        const valid = [];
-        parsed.forEach((q, idx) => {
-          if (!q.id || !q.chapter || !q.type || !q.text ||
-              !Array.isArray(q.options) || q.options.length !== 4 ||
-              typeof q.answer !== "number" || q.answer < 0 || q.answer > 3 ||
-              !q.explanation) {
-            console.warn("형식 오류로 제외됨:", idx, q);
-          } else {
-            valid.push(q);
-          }
-        });
-
-        if (!valid.length) {
-          alert("추가 가능한 문제를 찾지 못했습니다.");
+    reader.onload = e=>{
+      try{
+        const arr = JSON.parse(e.target.result);
+        if(!Array.isArray(arr)){
+          alert("JSON 배열 형식이어야 합니다.");
           return;
         }
 
         const custom = loadCustomQuestions();
-        const allIds = new Set(
-          BASE_QUESTIONS.map(q => q.id).concat(custom.map(q => q.id))
-        );
+        const allIds = new Set([
+          ...BASE_QUESTIONS.map(q=>q.id),
+          ...custom.map(q=>q.id)
+        ]);
 
-        const filtered = valid.filter(q => {
-          if (allIds.has(q.id)) {
-            console.warn("중복 ID로 제외:", q.id);
-            return false;
-          }
-          return true;
+        const valid = arr.filter(q=>{
+          return q.id && q.chapter && q.text &&
+                 Array.isArray(q.options) && q.options.length===4 &&
+                 typeof q.answer==="number";
         });
 
-        if (!filtered.length) {
-          alert("모든 ID가 기존 문제와 중복되어 추가할 수 없습니다.");
-          return;
-        }
+        const newOnes = valid.filter(q=>!allIds.has(q.id));
 
-        const newList = custom.concat(filtered);
-        saveCustomQuestions(newList);
+        saveCustomQuestions(custom.concat(newOnes));
+        alert(`${newOnes.length}개의 문제가 추가되었습니다.`);
 
-        alert(`파일에서 ${filtered.length}개의 문제가 추가되었습니다!`);
+        refreshChapterDropdown();
         input.value = "";
-      } catch (err) {
-        console.error(err);
-        alert("JSON 파싱 오류: 파일 형식을 다시 확인해주세요.");
+      }
+      catch(err){
+        alert("JSON 파싱 오류");
       }
     };
-
-    reader.readAsText(file, "utf-8");
+    reader.readAsText(file);
   });
 }
 
-// ========================
-// 11-2. 사용자 추가 문제 관리 (초기화 + Export)
-// ========================
-function setupCustomManagement() {
+/***********************************************************
+ * 15. 사용자 문제 관리 (초기화 + Export)
+ ***********************************************************/
+function setupCustomManagement(){
   const clearBtn = document.getElementById("clearCustomBtn");
   const exportBtn = document.getElementById("exportCustomBtn");
 
-  if (clearBtn) {
-    clearBtn.addEventListener("click", () => {
-      if (!confirm("사용자 추가 문제를 모두 삭제할까요?\n(기본 문제, 오답, 점수는 그대로 유지됩니다)")) return;
+  clearBtn.addEventListener("click", ()=>{
+    if(confirm("사용자 추가 문제를 모두 삭제할까요?")){
       saveCustomQuestions([]);
-      alert("사용자 추가 문제가 모두 삭제되었습니다.");
-    });
-  }
+      refreshChapterDropdown();
+      alert("삭제 완료");
+    }
+  });
 
-  if (exportBtn) {
-    exportBtn.addEventListener("click", () => {
-      const custom = loadCustomQuestions();
-      if (!custom.length) {
-        alert("저장된 사용자 추가 문제가 없습니다.");
-        return;
-      }
-      const jsonStr = JSON.stringify(custom, null, 2);
-      const blob = new Blob([jsonStr], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      const dateStr = new Date().toISOString().slice(0,10); // YYYY-MM-DD
-      a.href = url;
-      a.download = `cre_custom_questions_${dateStr}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-  }
+  exportBtn.addEventListener("click", ()=>{
+    const data = loadCustomQuestions();
+    if(!data.length){
+      alert("저장된 문제가 없습니다.");
+      return;
+    }
+
+    const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `cre_custom_questions_${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  });
 }
 
-// ========================
-// 12. 비밀번호 게이트
-// ========================
-function setupGate() {
+/***********************************************************
+ * 16. 비밀번호 게이트
+ ***********************************************************/
+function setupGate(){
   const overlay = document.getElementById("gateOverlay");
-  const pwInput = document.getElementById("gatePassword");
+  const input = document.getElementById("gatePassword");
   const btn = document.getElementById("gateBtn");
   const msg = document.getElementById("gateMessage");
   const app = document.getElementById("appContainer");
 
-  function tryEnter() {
-    const val = pwInput.value || "";
-    if (val === APP_PASSWORD) {
+  function enter(){
+    if(input.value === APP_PASSWORD){
       overlay.style.display = "none";
       app.style.display = "block";
       renderWrongNotes();
       renderScoreHistory();
+      refreshChapterDropdown();
     } else {
       msg.textContent = "비밀번호가 올바르지 않습니다.";
     }
   }
 
-  btn.addEventListener("click", tryEnter);
-  pwInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      tryEnter();
-    }
+  btn.addEventListener("click", enter);
+  input.addEventListener("keydown", e=>{
+    if(e.key==="Enter") enter();
   });
 }
 
-// ========================
-// 13. 초기화
-// ========================
+/***********************************************************
+ * 초기 실행
+ ***********************************************************/
 document.getElementById("startBtn").addEventListener("click", startQuiz);
-document.getElementById("submitBtn").addEventListener("click", () => submitQuiz(false));
+document.getElementById("submitBtn").addEventListener("click", ()=>submitQuiz(false));
 document.getElementById("resetBtn").addEventListener("click", resetQuiz);
 
 setupAddQuestionForm();
 setupUploadQuestions();
 setupCustomManagement();
 setupGate();
+
 </script>
+
 </body>
 </html>
