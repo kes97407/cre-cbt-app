@@ -1024,7 +1024,7 @@ function setupAddQuestionForm(){
       explanation: document.getElementById("addExplanation").value.trim()
     };
 
-    if(!q.id || !q.text || q.options.some(v=>!v) || q.answer<0 || q.answer>3 || !q.explanation){
+    if(!q.id || !q.text || q.options.some(v=>!v) || q.answer<0 || q.answer>3 ||q.explanation !== undefined){
       alert("모든 필드를 올바르게 입력해주세요.");
       return;
     }
@@ -1175,3 +1175,4 @@ setupGate();
 
 </body>
 </html>
+
