@@ -381,298 +381,157 @@ button:disabled {
 <!-- JS 영역 — 메시지 ③에서 이곳에 붙여넣음 -->
 <script>
 /* === JAVASCRIPT WILL BE INSERTED HERE (MESSAGE ③) === */
-
-  /***********************************************************
- * 0. 설정: 비밀번호
+/***********************************************************
+ * 0. 설정
  ***********************************************************/
-const APP_PASSWORD = "cre2025";  // 필요하면 변경 가능
+const APP_PASSWORD = "cre2025";
 
 /***********************************************************
- * 1. 기본 문제 데이터 (챕터명 반영)
+ * 1. 기본 문제 데이터
  ***********************************************************/
 const BASE_QUESTIONS = [
   // 챕터 4 - Statistical Concepts
-  {
-    id: "Q1",
-    chapter: "챕터 4 - Statistical Concepts",
-    type: "C",
-    text: "Exponential 분포에서 MTBF = 800시간일 때, 400시간의 신뢰도 R(400)에 가장 가까운 값은?",
-    options: ["0.50","0.61","0.37","0.80"],
-    answer: 1,
-    explanation: "R = exp(-t/MTBF) = exp(-0.5) ≈ 0.6065 → 0.61",
-  },
-  {
-    id: "Q2",
-    chapter: "챕터 4 - Statistical Concepts",
-    type: "C",
-    text: "Exponential 수명시험에서 총 시험시간 T = 4000h, 고장수 r = 3일 때 90% MTBF 하한은?",
-    options: [
+  { id:"Q1", chapter:"챕터 4 - Statistical Concepts", type:"C",
+    text:"Exponential 분포에서 MTBF = 800시간일 때 R(400)은?",
+    options:["0.50","0.61","0.37","0.80"], answer:1,
+    explanation:"R=exp(-0.5)=0.606" },
+
+  { id:"Q2", chapter:"챕터 4 - Statistical Concepts", type:"C",
+    text:"Exponential 시험 T=4000h, r=3, 90% MTBF 하한?",
+    options:[
       "2T / χ²(2r; lower 0.10)",
       "2T / χ²(2r; upper 0.10)",
       "T / r",
       "T / (r-1)"
-    ],
-    answer: 1,
-    explanation: "Lower one-sided LCB = 2T / χ²(2r; upper α).",
-  },
-  {
-    id: "Q3",
-    chapter: "챕터 4 - Statistical Concepts",
-    type: "C",
-    text: "정규분포(μ=50, σ=10)에서 40 이하일 확률은?",
-    options: ["약 0.16","약 0.30","약 0.50","약 0.84"],
-    answer: 0,
-    explanation: "Z=-1 → Φ(-1)=0.1587",
-  },
-  {
-    id: "Q4",
-    chapter: "챕터 4 - Statistical Concepts",
-    type: "A",
-    text: "Exponential 분포에서 R(MTBF) 값은?",
-    options: ["0.50","0.37","0.63","0.90"],
-    answer: 1,
-    explanation: "R=exp(-1)=0.3679",
-  },
-  {
-    id: "Q5",
-    chapter: "챕터 4 - Statistical Concepts",
-    type: "A",
-    text: "Weibull 분포에서 β > 1 의미는?",
-    options: [
-      "초기고장(Infant Mortality)",
-      "마모고장(Wear-out), 고장률 증가",
-      "고장률 일정",
-      "무작위(Random)"
-    ],
-    answer: 1,
-    explanation: "β>1 → 고장률 증가",
-  },
+    ], answer:1,
+    explanation:"Lower LCB = 2T / χ²(upper α)" },
+
+  { id:"Q3", chapter:"챕터 4 - Statistical Concepts", type:"C",
+    text:"정규(50,10)에서 40 이하 확률?",
+    options:["0.16","0.30","0.50","0.84"], answer:0,
+    explanation:"Z=-1 → 0.1587" },
+
+  { id:"Q4", chapter:"챕터 4 - Statistical Concepts", type:"A",
+    text:"Exponential R(MTBF) 값?",
+    options:["0.50","0.37","0.63","0.90"], answer:1,
+    explanation:"exp(-1)=0.37" },
+
+  { id:"Q5", chapter:"챕터 4 - Statistical Concepts", type:"A",
+    text:"Weibull β>1 의미?",
+    options:["초기고장","마모고장","고장률 일정","무작위"], answer:1,
+    explanation:"β>1 = wear-out" },
 
   // 챕터 7 - Testing and Modeling
-  {
-    id: "Q6",
-    chapter: "챕터 7 - Testing and Modeling",
-    type: "A",
-    text: "ALT의 핵심 목적은?",
-    options: [
-      "설계한계 찾기",
-      "단기간 데이터 수집 후 정상조건 수명 예측",
-      "Cpk 향상",
-      "파괴시험 후 고장 제거"
-    ],
-    answer: 1,
-    explanation: "Accelerated Life Testing은 짧은 시간 내 수명 예측 목적",
-  },
-  {
-    id: "Q7",
-    chapter: "챕터 7 - Testing and Modeling",
-    type: "A",
-    text: "Peck 모델은 무엇을 고려하는가?",
-    options: [
-      "온도만",
-      "습도만",
-      "온도 + 습도",
-      "전압 + 진동"
-    ],
-    answer: 2,
-    explanation: "Peck = 온도 + 습도",
-  },
-  {
-    id: "Q8",
-    chapter: "챕터 7 - Testing and Modeling",
-    type: "A",
-    text: "Step-stress 시험 정의는?",
-    options: [
-      "스트레스 일정",
-      "시간에 따라 단계적으로 증가",
-      "시간에 따라 단계적으로 감소",
-      "무작위 스트레스"
-    ],
-    answer: 1,
-    explanation: "Step-stress = 단계적으로 스트레스 상승",
-  },
-  {
-    id: "Q9",
-    chapter: "챕터 7 - Testing and Modeling",
-    type: "C",
-    text: "0.7, 0.8, 0.9 병렬 시스템 R은?",
-    options: ["0.90","0.97","0.50","0.80"],
-    answer: 1,
-    explanation: "R = 1-(0.3)(0.2)(0.1)=0.994 → 보기 중 0.97이 가장 근접",
-  },
-  {
-    id: "Q10",
-    chapter: "챕터 7 - Testing and Modeling",
-    type: "C",
-    text: "Perfect Standby: Active=0.9, Standby=0.8 시스템 R은?",
-    options: ["0.90","0.92","0.98","0.99"],
-    answer: 2,
-    explanation: "Rsys=0.9+0.1×0.8=0.98",
-  },
+  { id:"Q6", chapter:"챕터 7 - Testing and Modeling", type:"A",
+    text:"ALT 목적?",
+    options:["설계한계","단기간→수명예측","Cpk 개선","파괴시험"],
+    answer:1, explanation:"단기간 수명 예측" },
+
+  { id:"Q7", chapter:"챕터 7 - Testing and Modeling", type:"A",
+    text:"Peck 모델?",
+    options:["온도","습도","온도+습도","전압+진동"],
+    answer:2, explanation:"온도+습도" },
+
+  { id:"Q8", chapter:"챕터 7 - Testing and Modeling", type:"A",
+    text:"Step-stress?",
+    options:["유지","단계적 증가","단계적 감소","무작위"],
+    answer:1, explanation:"스트레스 단계 증가" },
+
+  { id:"Q9", chapter:"챕터 7 - Testing and Modeling", type:"C",
+    text:"병렬 0.7/0.8/0.9 시스템?",
+    options:["0.90","0.97","0.50","0.80"], answer:1,
+    explanation:"1-(0.3)(0.2)(0.1)=0.994" },
+
+  { id:"Q10", chapter:"챕터 7 - Testing and Modeling", type:"C",
+    text:"Perfect standby Active=0.9, Standby=0.8",
+    options:["0.90","0.92","0.98","0.99"], answer:2,
+    explanation:"0.9+0.1*0.8=0.98" },
 
   // 챕터 3 - Risk Management
-  {
-    id: "Q11",
-    chapter: "챕터 3 - Risk Management",
-    type: "A",
-    text: "Common Cause Failure 정의?",
-    options: [
-      "독립 고장이 동시에 발생",
-      "동일 원인으로 병렬 경로 동시에 고장",
-      "환경 무관 랜덤고장",
-      "수리 과정 고장"
-    ],
-    answer: 1,
-    explanation: "CCF = 하나의 원인이 여러 경로 고장 유발",
-  },
-  {
-    id: "Q12",
-    chapter: "챕터 3 - Risk Management",
-    type: "A",
-    text: "FTA 장점은?",
-    options: [
-      "전체 고장 모드 분석",
-      "시간별 고장률 추세분석",
-      "Top Event 중심 원인 분석",
-      "요인 상호작용 분석"
-    ],
-    answer: 2,
-    explanation: "FTA = Top Event 중심 분석 기법",
-  },
+  { id:"Q11", chapter:"챕터 3 - Risk Management", type:"A",
+    text:"Common Cause Failure?",
+    options:["독립고장","동일원인 병렬고장","환경무관","수리고장"],
+    answer:1, explanation:"동일원인" },
+
+  { id:"Q12", chapter:"챕터 3 - Risk Management", type:"A",
+    text:"FTA 장점?",
+    options:["모든고장","추세분석","Top event 중심","상호작용"],
+    answer:2, explanation:"Top event 분석" },
 
   // 챕터 8 - Reliability Designs
-  {
-    id: "Q13",
-    chapter: "챕터 8 - Reliability Designs",
-    type: "A",
-    text: "DOE에서 블록(block)의 정의?",
-    options: [
-      "요인 수준",
-      "균일한 집단(외부변동 통제 목적)",
-      "반복(run)",
-      "상호작용 효과"
-    ],
-    answer: 1,
-    explanation: "블록 = 균일한 그룹",
-  },
-  {
-    id: "Q14",
-    chapter: "챕터 8 - Reliability Designs",
-    type: "A",
-    text: "Taguchi Loss Function 형태?",
-    options: [
-      "규격 내 손실 0",
-      "손실은 (y-T)^2 에 비례",
-      "선형 증가",
-      "상수"
-    ],
-    answer: 1,
-    explanation: "L=k(y-T)^2",
-  },
-  {
-    id: "Q15",
-    chapter: "챕터 8 - Reliability Designs",
-    type: "A",
-    text: "Robust Design 핵심?",
-    options: [
-      "비용 최소화",
-      "Cpk 최대화",
-      "Noise 요인 민감도 감소",
-      "시험 시간 단축"
-    ],
-    answer: 2,
-    explanation: "강건설계 = Noise Sensitivity ↓",
-  },
+  { id:"Q13", chapter:"챕터 8 - Reliability Designs", type:"A",
+    text:"DOE의 블록?",
+    options:["요인수준","균일그룹","반복","상호작용"],
+    answer:1, explanation:"균일집단" },
+
+  { id:"Q14", chapter:"챕터 8 - Reliability Designs", type:"A",
+    text:"Taguchi Loss?",
+    options:["규격내0","제곱비례","선형","상수"],
+    answer:1, explanation:"(y-T)^2" },
+
+  { id:"Q15", chapter:"챕터 8 - Reliability Designs", type:"A",
+    text:"Robust Design 목적?",
+    options:["비용↓","Cpk↑","Noise 민감도↓","시험단축"],
+    answer:2, explanation:"잡음 민감도 감소" },
 
   // 챕터 9 - Maintainability
-  {
-    id: "Q16",
-    chapter: "챕터 9 - Maintainability",
-    type: "A",
-    text: "RCM 목적?",
-    options: [
-      "전체 유지비 최소화",
-      "시스템 가용성 추정",
-      "중요 고장 모드 중심 예방보전 정의",
-      "전체 부품 동일주기 교체"
-    ],
-    answer: 2,
-    explanation: "RCM = 중요 고장모드 예방 중점",
-  },
-  {
-    id: "Q17",
-    chapter: "챕터 9 - Maintainability",
-    type: "C",
-    text: "MTBM=1700h, MDT=34h → Ao?",
-    options: ["0.90","0.95","0.98","0.99"],
-    answer: 2,
-    explanation: "Ao = 1700 / (1700+34) ≈ 0.981",
-  },
+  { id:"Q16", chapter:"챕터 9 - Maintainability", type:"A",
+    text:"RCM 목적?",
+    options:["비용↓","가용성추정","중요 고장모드 예방보전","동일주기교체"],
+    answer:2, explanation:"중요모드 예방" },
+
+  { id:"Q17", chapter:"챕터 9 - Maintainability", type:"C",
+    text:"MTBM=1700h MDT=34h Ao?",
+    options:["0.90","0.95","0.98","0.99"],
+    answer:2, explanation:"1700/(1734)=0.981" },
 ];
 
 /***********************************************************
  * 2. LocalStorage Helper
  ***********************************************************/
-function loadWrongNotes() {
-  try { return JSON.parse(localStorage.getItem("creWrongNotes") || "[]"); }
-  catch { return []; }
-}
-function saveWrongNotes(v){ localStorage.setItem("creWrongNotes", JSON.stringify(v)); }
+const loadWrongNotes = () => JSON.parse(localStorage.getItem("creWrongNotes")||"[]");
+const saveWrongNotes = v => localStorage.setItem("creWrongNotes", JSON.stringify(v));
 
-function loadScoreHistory(){
-  try { return JSON.parse(localStorage.getItem("creScoreHistory") || "[]"); }
-  catch { return []; }
-}
-function saveScoreHistory(v){ localStorage.setItem("creScoreHistory", JSON.stringify(v)); }
+const loadScoreHistory = () => JSON.parse(localStorage.getItem("creScoreHistory")||"[]");
+const saveScoreHistory = v => localStorage.setItem("creScoreHistory", JSON.stringify(v));
 
-function loadCustomQuestions(){
-  try { return JSON.parse(localStorage.getItem("creCustomQuestions") || "[]"); }
-  catch { return []; }
-}
-function saveCustomQuestions(v){
-  localStorage.setItem("creCustomQuestions", JSON.stringify(v));
-}
+const loadCustomQuestions = () => JSON.parse(localStorage.getItem("creCustomQuestions")||"[]");
+const saveCustomQuestions = v => localStorage.setItem("creCustomQuestions", JSON.stringify(v));
 
 /***********************************************************
- * 3. 동적 챕터 목록 생성 기능
+ * 3. 동적 챕터 자동 생성
  ***********************************************************/
 function refreshChapterDropdown() {
   const chapterSelect = document.getElementById("chapterSelect");
-  const addChapterSelect = document.getElementById("addChapter");
+  const addChapter = document.getElementById("addChapter");
 
-  const base = BASE_QUESTIONS;
-  const custom = loadCustomQuestions();
-  const all = base.concat(custom);
+  const all = BASE_QUESTIONS.concat(loadCustomQuestions());
+  const chapters = new Set(["전체"]);
 
-  const chapterSet = new Set(["전체"]);
-  all.forEach(q => chapterSet.add(q.chapter));
+  all.forEach(q => chapters.add(q.chapter));
 
   chapterSelect.innerHTML = "";
-  addChapterSelect.innerHTML = "";
+  addChapter.innerHTML = "";
 
-  chapterSet.forEach(ch => {
-    chapterSelect.innerHTML += `<option value="${ch === '전체' ? 'all' : ch}">${ch}</option>`;
-    if (ch !== "전체") {
-      addChapterSelect.innerHTML += `<option value="${ch}">${ch}</option>`;
-    }
+  chapters.forEach(ch => {
+    chapterSelect.innerHTML += `<option value="${ch==='전체'?'all':ch}">${ch}</option>`;
+    if (ch !== "전체") addChapter.innerHTML += `<option value="${ch}">${ch}</option>`;
   });
 }
 
 /***********************************************************
- * 4. BASE + Custom 문제 합치기
+ * 4. 합쳐진 문제 목록
  ***********************************************************/
-function getAllQuestions() {
-  return BASE_QUESTIONS.concat(loadCustomQuestions());
-}
+const getAllQuestions = () => BASE_QUESTIONS.concat(loadCustomQuestions());
 
 /***********************************************************
- * 5. 오답노트 / 점수 표시
+ * 5. 오답/점수
  ***********************************************************/
-function renderWrongNotes() {
-  const box = document.getElementById("wrongNotesBox");
+function renderWrongNotes(){
   const notes = loadWrongNotes();
+  const box = document.getElementById("wrongNotesBox");
 
-  if (!notes.length) {
+  if (!notes.length){
     box.innerHTML = "<div style='font-size:12px;color:#6b7280;'>오답 없음</div>";
     return;
   }
@@ -682,16 +541,17 @@ function renderWrongNotes() {
       <b>${n.id}</b> <span class="tag ${n.type}">${n.type}</span>
       <div>${n.text}</div>
       <div style="font-size:11px;color:#6b7280;">
-        챕터: ${n.chapter} · 횟수: ${n.missCount} · 마지막: ${n.lastDate}
+        ${n.chapter} · ${n.missCount}회 · ${n.lastDate}
       </div>
     </div>
   `).join("");
 }
 
-function renderScoreHistory() {
-  const box = document.getElementById("scoreHistoryBox");
+function renderScoreHistory(){
   const hist = loadScoreHistory();
-  if (!hist.length) {
+  const box = document.getElementById("scoreHistoryBox");
+
+  if (!hist.length){
     box.innerHTML = "<div style='font-size:12px;color:#6b7280;'>기록 없음</div>";
     return;
   }
@@ -704,34 +564,14 @@ function renderScoreHistory() {
   `).join("");
 }
 
-function clearWrongNotes(){
-  if(confirm("오답노트를 모두 삭제할까요?")){
-    saveWrongNotes([]);
-    renderWrongNotes();
-  }
-}
-function clearScoreHistory(){
-  if(confirm("점수 기록을 삭제할까요?")){
-    saveScoreHistory([]);
-    renderScoreHistory();
-  }
-}
-
 /***********************************************************
  * 6. 타이머
  ***********************************************************/
-let timerId = null;
-let timerSeconds = 0;
-let quizStarted = false;
-let quizStartTime = null;
-let currentQuiz = [];
+let timerId=null, timerSeconds=0, quizStarted=false, quizStartTime=null, currentQuiz=[];
 
 function updateTimerDisplay(){
   const el = document.getElementById("timer");
-  if (timerSeconds <= 0){
-    el.textContent = "Timer: OFF";
-    return;
-  }
+  if (timerSeconds<=0){ el.textContent="Timer: OFF"; return; }
   const m = String(Math.floor(timerSeconds/60)).padStart(2,"0");
   const s = String(timerSeconds%60).padStart(2,"0");
   el.textContent = `남은 시간: ${m}:${s}`;
@@ -741,12 +581,13 @@ function startTimer(sec){
   clearInterval(timerId);
   timerSeconds = sec;
   updateTimerDisplay();
-  if(sec <= 0) return;
+
+  if(sec<=0) return;
 
   timerId = setInterval(()=>{
     timerSeconds--;
     updateTimerDisplay();
-    if(timerSeconds <= 0){
+    if(timerSeconds<=0){
       clearInterval(timerId);
       alert("시간 종료! 자동 제출됩니다.");
       submitQuiz(true);
@@ -754,34 +595,33 @@ function startTimer(sec){
   },1000);
 }
 
-function stopTimer(){ clearInterval(timerId); }
-
 /***********************************************************
  * 7. 문제 섞기
  ***********************************************************/
-function shuffleArray(arr){
+const shuffleArray = arr => {
   const a = arr.slice();
   for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
+    const j=Math.floor(Math.random()*(i+1));
     [a[i],a[j]]=[a[j],a[i]];
   }
   return a;
-}
+};
 
 /***********************************************************
- * 8. 퀴즈 화면 렌더링
+ * 8. 시험 표시
  ***********************************************************/
 function renderQuiz(){
-  const box = document.getElementById("quizBox");
+  const box=document.getElementById("quizBox");
   box.innerHTML = "";
 
   currentQuiz.forEach((q, idx)=>{
     let html = `
       <div class="question-block">
         <div class="question-title">Q${idx+1}. ${q.text}</div>
-        <div class="meta">ID: ${q.id} · ${q.chapter} · ${q.type}</div>
+        <div class="meta">${q.id} · ${q.chapter} · ${q.type}</div>
     `;
-    q.options.forEach((op, j)=>{
+
+    q.options.forEach((op,j)=>{
       html += `
         <div class="option">
           <label>
@@ -790,76 +630,71 @@ function renderQuiz(){
           </label>
         </div>`;
     });
+
     html += "</div>";
     box.innerHTML += html;
   });
 }
 
 /***********************************************************
- * 9. 출제 풀 생성 (normal / wrong / weak)
+ * 9. 출제 모드 (normal/wrong/weak)
  ***********************************************************/
 function buildQuestionPool(){
-  const chapter = document.getElementById("chapterSelect").value;
-  const qType   = document.getElementById("typeSelect").value;
-  const mode    = document.getElementById("modeSelect").value;
+  const ch = document.getElementById("chapterSelect").value;
+  const tp = document.getElementById("typeSelect").value;
+  const mode=document.getElementById("modeSelect").value;
 
-  const all = getAllQuestions();
-  const notes = loadWrongNotes();
+  const all=getAllQuestions();
+  const notes=loadWrongNotes();
 
-  let pool = [];
+  let pool=[];
 
-  if (mode === "normal"){
+  if(mode==="normal"){
     pool = all.filter(q =>
-      (chapter==="all" || q.chapter===chapter) &&
-      (qType==="all" || q.type===qType)
+      (ch==="all" || q.chapter===ch) &&
+      (tp==="all" || q.type===tp)
     );
   }
 
-  else if (mode === "wrong"){
-    const wrongIds = notes.map(n=>n.id);
+  else if(mode==="wrong"){
+    const wrongIds = new Set(notes.map(n=>n.id));
     pool = all.filter(q =>
-      wrongIds.includes(q.id) &&
-      (chapter==="all" || q.chapter===chapter) &&
-      (qType==="all" || q.type===qType)
+      wrongIds.has(q.id) &&
+      (ch==="all" || q.chapter===ch) &&
+      (tp==="all" || q.type===tp)
     );
   }
 
-  else if (mode === "weak"){
-    if (!notes.length){
-      alert("오답노트가 없습니다. 약점 챕터 계산 불가.");
-      return { pool: [], autoChapter:null };
+  else if(mode==="weak"){
+    if(!notes.length){
+      alert("오답노트가 없습니다.");
+      return { pool:[], autoChapter:null };
+    }
+    const counts={};
+    notes.forEach(n=>counts[n.chapter]=(counts[n.chapter]||0)+n.missCount);
+
+    let weak=null, max=-1;
+    for(const c in counts){
+      if(counts[c]>max){ weak=c; max=counts[c]; }
     }
 
-    const counts = {};
-    notes.forEach(n=>{
-      counts[n.chapter] = (counts[n.chapter]||0) + n.missCount;
-    });
-
-    let weakChapter=null, max=-1;
-    Object.keys(counts).forEach(ch=>{
-      if(counts[ch] > max){
-        max = counts[ch];
-        weakChapter = ch;
-      }
-    });
-
     pool = all.filter(q =>
-      q.chapter === weakChapter &&
-      (qType==="all" || q.type===qType)
+      q.chapter===weak &&
+      (tp==="all" || q.type===tp)
     );
 
-    return { pool, autoChapter:weakChapter };
+    return { pool, autoChapter:weak };
   }
 
   return { pool, autoChapter:null };
 }
 
 /***********************************************************
- * 10. 퀴즈 시작
+ * 10. 시험 시작
  ***********************************************************/
 function startQuiz(){
-  const count = Number(document.getElementById("countInput").value);
-  const timerMin = Number(document.getElementById("timerInput").value);
+  const cnt = Number(document.getElementById("countInput").value);
+  const tm = Number(document.getElementById("timerInput").value);
   const mode = document.getElementById("modeSelect").value;
 
   const { pool, autoChapter } = buildQuestionPool();
@@ -868,263 +703,250 @@ function startQuiz(){
     return;
   }
 
-  currentQuiz = shuffleArray(pool).slice(0, count || pool.length);
+  currentQuiz = shuffleArray(pool).slice(0, cnt||pool.length);
   renderQuiz();
 
   quizStarted = true;
   quizStartTime = Date.now();
 
-  document.getElementById("resultBox").innerHTML = "";
-  document.getElementById("startBtn").disabled = true;
-  document.getElementById("submitBtn").disabled = false;
-  document.getElementById("resetBtn").disabled = false;
+  document.getElementById("resultBox").innerHTML="";
+  document.getElementById("startBtn").disabled=true;
+  document.getElementById("submitBtn").disabled=false;
+  document.getElementById("resetBtn").disabled=false;
 
-  let desc = [];
+  const desc=[];
   desc.push(mode==="normal" ? "일반" :
             mode==="wrong"  ? "오답만" :
             "약점 챕터");
 
-  if (mode==="weak" && autoChapter){
+  if(mode==="weak" && autoChapter)
     desc.push(`챕터=${autoChapter}`);
-  } else {
-    const chapter = document.getElementById("chapterSelect").value;
-    desc.push(chapter==="all" ? "전체 챕터" : `챕터=${chapter}`);
+  else {
+    const ch=document.getElementById("chapterSelect").value;
+    desc.push(ch==="all" ? "전체" : `챕터=${ch}`);
   }
 
-  const qType = document.getElementById("typeSelect").value;
-  desc.push(qType==="all" ? "A+C" : `유형=${qType}`);
+  const tp=document.getElementById("typeSelect").value;
+  desc.push(tp==="all" ? "A+C" : `유형=${tp}`);
   desc.push(`문제=${currentQuiz.length}`);
-
   document.getElementById("modeDesc").textContent = desc.join(" / ");
 
-  startTimer(timerMin>0 ? timerMin*60 : 0);
+  startTimer(tm>0 ? tm*60 : 0);
 }
 
 /***********************************************************
- * 11. 제출 / 채점
+ * 11. 제출/채점
  ***********************************************************/
 function submitQuiz(auto=false){
   if(!quizStarted) return;
-  quizStarted = false;
+  quizStarted=false;
   stopTimer();
 
-  const durationSec = Math.round((Date.now()-quizStartTime)/1000);
-  let correct = 0;
-  let html = "";
-  let wrongToAdd = [];
+  const duration=Math.round((Date.now()-quizStartTime)/1000);
+  let correct=0;
+  let html="";
+  const wrong=[];
 
-  currentQuiz.forEach((q, idx)=>{
-    const sel = document.querySelector(`input[name="q${idx}"]:checked`);
-    const userIdx = sel ? Number(sel.value) : null;
-    const ok = (userIdx === q.answer);
+  currentQuiz.forEach((q,idx)=>{
+    const sel=document.querySelector(`input[name="q${idx}"]:checked`);
+    const u=sel ? Number(sel.value) : null;
+    const ok=u===q.answer;
+
     if(ok) correct++;
-
-    const user = sel ? `${String.fromCharCode(65+userIdx)}. ${q.options[userIdx]}`:"무응답";
-    const corr = `${String.fromCharCode(65+q.answer)}. ${q.options[q.answer]}`;
+    else wrong.push(q);
 
     html += `
       <div style="margin-bottom:12px;">
-        <b>Q${idx+1} (${q.id})</b><br/>
-        답: ${user}<br/>
-        정답: <span style="color:${ok?'#16a34a':'#dc2626'}">${corr}</span>
-        <div class="explanation">${q.explanation}</div>
+        <b>Q${idx+1} (${q.id})</b><br>
+        선택: ${u===null?"무응답":`${String.fromCharCode(65+u)}. ${q.options[u]}`}<br>
+        정답: <span style="color:${ok?"#16a34a":"#dc2626"}">
+          ${String.fromCharCode(65+q.answer)}. ${q.options[q.answer]}
+        </span>
+        <div class="explanation">${q.explanation||""}</div>
       </div>`;
-
-    if(!ok) wrongToAdd.push(q);
   });
 
-  const pct = Math.round(correct/currentQuiz.length*100);
+  const pct=Math.round(correct/currentQuiz.length*100);
 
-  document.getElementById("resultBox").innerHTML = `
-    <h3>점수: ${correct} / ${currentQuiz.length} (${pct}%)</h3>
-    <div style="font-size:12px;color:#6b7280;">
-      소요시간: ${durationSec}s ${auto ? "(자동 제출)" : ""}
-    </div>
+  document.getElementById("resultBox").innerHTML=`
+    <h3>점수: ${correct}/${currentQuiz.length} (${pct}%)</h3>
+    <div style="font-size:12px;color:#6b7280;">소요 ${duration}s ${auto?"(자동 제출)":""}</div>
     ${html}
   `;
 
-  document.getElementById("submitBtn").disabled = true;
+  document.getElementById("submitBtn").disabled=true;
 
-  // 오답 저장
-  if(wrongToAdd.length){
-    const notes = loadWrongNotes();
-    const now = new Date().toLocaleString();
+  // 오답 기록
+  if(wrong.length){
+    const notes=loadWrongNotes();
+    const now=new Date().toLocaleString();
 
-    wrongToAdd.forEach(q=>{
-      const ex = notes.find(n=>n.id===q.id);
-      if(ex){
-        ex.missCount++;
-        ex.lastDate = now;
-      } else {
-        notes.push({
-          id: q.id,
-          text: q.text,
-          chapter: q.chapter,
-          type: q.type,
-          missCount: 1,
-          lastDate: now
-        });
-      }
+    wrong.forEach(q=>{
+      const ex=notes.find(n=>n.id===q.id);
+      if(ex){ ex.missCount++; ex.lastDate=now; }
+      else notes.push({
+        id:q.id, text:q.text, chapter:q.chapter,
+        type:q.type, missCount:1, lastDate:now
+      });
     });
 
     saveWrongNotes(notes);
     renderWrongNotes();
   }
 
-  // 점수 저장
-  const hist = loadScoreHistory();
+  const hist=loadScoreHistory();
   hist.push({
     date:new Date().toLocaleString(),
     mode:document.getElementById("modeDesc").textContent,
     total:currentQuiz.length,
     correct,
-    durationSec
+    durationSec:duration
   });
   saveScoreHistory(hist);
   renderScoreHistory();
 }
 
 /***********************************************************
- * 12. 시험 화면 초기화
+ * 12. 초기화
  ***********************************************************/
 function resetQuiz(){
   stopTimer();
-  quizStarted = false;
-  currentQuiz = [];
-  document.getElementById("quizBox").innerHTML = "";
-  document.getElementById("resultBox").innerHTML = "";
-  document.getElementById("modeDesc").textContent = "";
-  document.getElementById("timer").textContent = "Timer: OFF";
+  quizStarted=false;
+  currentQuiz=[];
+  document.getElementById("quizBox").innerHTML="";
+  document.getElementById("resultBox").innerHTML="";
+  document.getElementById("modeDesc").textContent="";
+  document.getElementById("timer").textContent="Timer: OFF";
 
-  document.getElementById("startBtn").disabled = false;
-  document.getElementById("submitBtn").disabled = true;
-  document.getElementById("resetBtn").disabled = true;
+  document.getElementById("startBtn").disabled=false;
+  document.getElementById("submitBtn").disabled=true;
+  document.getElementById("resetBtn").disabled=true;
 }
 
 /***********************************************************
- * 13. 문제 추가 폼 (1개씩)
+ * 13. 문제 추가 폼 (설명 없어도 허용)
  ***********************************************************/
 function setupAddQuestionForm(){
-  const form = document.getElementById("addQuestionForm");
+  const form=document.getElementById("addQuestionForm");
+
   form.addEventListener("submit", e=>{
     e.preventDefault();
 
-    const q = {
-      id: document.getElementById("addId").value.trim(),
-      chapter: document.getElementById("addChapter").value,
-      type: document.getElementById("addType").value,
-      text: document.getElementById("addText").value.trim(),
-      options: [
+    const q={
+      id:document.getElementById("addId").value.trim(),
+      chapter:document.getElementById("addChapter").value,
+      type:document.getElementById("addType").value,
+      text:document.getElementById("addText").value.trim(),
+      options:[
         document.getElementById("addOpA").value.trim(),
         document.getElementById("addOpB").value.trim(),
         document.getElementById("addOpC").value.trim(),
         document.getElementById("addOpD").value.trim(),
       ],
-      answer: Number(document.getElementById("addAnswer").value),
-      explanation: document.getElementById("addExplanation").value.trim()
+      answer:Number(document.getElementById("addAnswer").value),
+      explanation:document.getElementById("addExplanation").value.trim() || ""
     };
 
-    if(!q.id || !q.text || q.options.some(v=>!v) || q.answer<0 || q.answer>3 ||q.explanation !== undefined){
-      alert("모든 필드를 올바르게 입력해주세요.");
+    if(!q.id || !q.text || q.options.some(o=>!o) ||
+       q.answer<0 || q.answer>3){
+      alert("모든 필드를 확인해주세요.");
       return;
     }
 
-    const custom = loadCustomQuestions();
-    const exists = custom.some(c=>c.id===q.id) || BASE_QUESTIONS.some(b=>b.id===q.id);
-    if(exists){
-      alert("이미 존재하는 ID입니다.");
+    const custom=loadCustomQuestions();
+    if(custom.some(c=>c.id===q.id) || BASE_QUESTIONS.some(b=>b.id===q.id)){
+      alert("ID 중복입니다.");
       return;
     }
 
     custom.push(q);
     saveCustomQuestions(custom);
-
-    alert("문제가 추가되었습니다.");
     refreshChapterDropdown();
+
+    alert("문제 추가 완료!");
     form.reset();
-    document.getElementById("addAnswer").value = 0;
   });
 }
 
 /***********************************************************
- * 14. JSON 문제 업로드
+ * 14. JSON 문제 업로드 (설명 없어도 OK)
  ***********************************************************/
 function setupUploadQuestions(){
-  const input = document.getElementById("uploadFileInput");
-  const btn = document.getElementById("uploadFileBtn");
+  const input=document.getElementById("uploadFileInput");
+  const btn=document.getElementById("uploadFileBtn");
 
   btn.addEventListener("click", ()=>{
-    const file = input.files?.[0];
-    if(!file){
-      alert("JSON 파일을 선택하세요.");
-      return;
-    }
+    const file=input.files?.[0];
+    if(!file){ alert("파일을 먼저 선택하세요."); return; }
 
-    const reader = new FileReader();
-    reader.onload = e=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
       try{
-        const arr = JSON.parse(e.target.result);
-        if(!Array.isArray(arr)){
-          alert("JSON 배열 형식이어야 합니다.");
-          return;
-        }
+        const arr=JSON.parse(e.target.result);
+        if(!Array.isArray(arr)){ alert("JSON 배열이 아닙니다."); return; }
 
-        const custom = loadCustomQuestions();
-        const allIds = new Set([
+        const custom=loadCustomQuestions();
+        const allIds=new Set([
           ...BASE_QUESTIONS.map(q=>q.id),
           ...custom.map(q=>q.id)
         ]);
 
-        const valid = arr.filter(q=>{
-          return q.id && q.chapter && q.text &&
-                 Array.isArray(q.options) && q.options.length===4 &&
-                 typeof q.answer==="number";
+        const valid=[];
+        arr.forEach((q,idx)=>{
+          if(!q.id || !q.chapter || !q.text ||
+             !Array.isArray(q.options) || q.options.length!==4 ||
+             typeof q.answer!=="number"){
+            console.warn("제외:", idx, q);
+            return;
+          }
+
+          // explanation 없으면 자동 생성
+          if(!("explanation" in q) || q.explanation===null)
+            q.explanation = "";
+
+          if(!allIds.has(q.id))
+            valid.push(q);
         });
 
-        const newOnes = valid.filter(q=>!allIds.has(q.id));
+        if(!valid.length){ alert("추가할 문제가 없습니다."); return; }
 
-        saveCustomQuestions(custom.concat(newOnes));
-        alert(`${newOnes.length}개의 문제가 추가되었습니다.`);
-
+        saveCustomQuestions(custom.concat(valid));
         refreshChapterDropdown();
-        input.value = "";
+        alert(`${valid.length}문제 추가 완료!`);
       }
       catch(err){
         alert("JSON 파싱 오류");
       }
     };
+
     reader.readAsText(file);
   });
 }
 
 /***********************************************************
- * 15. 사용자 문제 관리 (초기화 + Export)
+ * 15. 사용자 문제 Export/삭제
  ***********************************************************/
 function setupCustomManagement(){
-  const clearBtn = document.getElementById("clearCustomBtn");
-  const exportBtn = document.getElementById("exportCustomBtn");
+  const clear=document.getElementById("clearCustomBtn");
+  const exp=document.getElementById("exportCustomBtn");
 
-  clearBtn.addEventListener("click", ()=>{
-    if(confirm("사용자 추가 문제를 모두 삭제할까요?")){
+  clear.addEventListener("click", ()=>{
+    if(confirm("사용자 문제 전체 삭제?")){
       saveCustomQuestions([]);
       refreshChapterDropdown();
-      alert("삭제 완료");
     }
   });
 
-  exportBtn.addEventListener("click", ()=>{
-    const data = loadCustomQuestions();
-    if(!data.length){
-      alert("저장된 문제가 없습니다.");
-      return;
-    }
+  exp.addEventListener("click", ()=>{
+    const data=loadCustomQuestions();
+    if(!data.length){ alert("저장된 문제가 없습니다."); return; }
 
-    const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
-    const url = URL.createObjectURL(blob);
+    const blob=new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+    const url=URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `cre_custom_questions_${new Date().toISOString().slice(0,10)}.json`;
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="cre_custom_questions.json";
     a.click();
 
     URL.revokeObjectURL(url);
@@ -1135,21 +957,21 @@ function setupCustomManagement(){
  * 16. 비밀번호 게이트
  ***********************************************************/
 function setupGate(){
-  const overlay = document.getElementById("gateOverlay");
-  const input = document.getElementById("gatePassword");
-  const btn = document.getElementById("gateBtn");
-  const msg = document.getElementById("gateMessage");
-  const app = document.getElementById("appContainer");
+  const overlay=document.getElementById("gateOverlay");
+  const input=document.getElementById("gatePassword");
+  const btn=document.getElementById("gateBtn");
+  const msg=document.getElementById("gateMessage");
+  const app=document.getElementById("appContainer");
 
   function enter(){
-    if(input.value === APP_PASSWORD){
-      overlay.style.display = "none";
-      app.style.display = "block";
+    if(input.value===APP_PASSWORD){
+      overlay.style.display="none";
+      app.style.display="block";
       renderWrongNotes();
       renderScoreHistory();
       refreshChapterDropdown();
     } else {
-      msg.textContent = "비밀번호가 올바르지 않습니다.";
+      msg.textContent="비밀번호가 올바르지 않습니다.";
     }
   }
 
@@ -1160,7 +982,7 @@ function setupGate(){
 }
 
 /***********************************************************
- * 초기 실행
+ * 17. 초기 실행
  ***********************************************************/
 document.getElementById("startBtn").addEventListener("click", startQuiz);
 document.getElementById("submitBtn").addEventListener("click", ()=>submitQuiz(false));
@@ -1175,4 +997,5 @@ setupGate();
 
 </body>
 </html>
+
 
