@@ -583,10 +583,10 @@ function clearScoreHistory() {
  ***********************************************************/
 let timerId=null, timerSeconds=0, quizStarted=false, quizStartTime=null, currentQuiz=[];
 /***********************************************************
- * 타이머 중지 함수 (추가)
+ * STOP TIMER (필수)
  ***********************************************************/
 function stopTimer() {
-  if (timerId !== null) {
+  if (typeof timerId !== "undefined" && timerId !== null) {
     clearInterval(timerId);
     timerId = null;
   }
@@ -1020,6 +1020,7 @@ setupGate();
 
 </body>
 </html>
+
 
 
 
