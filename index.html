@@ -1053,38 +1053,61 @@ function resetQuiz(){
   document.getElementById("resetBtn").disabled=true;
 }
 
-/******************************************************************
- * 15. 문제 추가 폼
- ******************************************************************/
-function setupAddQuestionForm(){
-  const f=document.getElementById("addQuestionForm");
+/***********************************************************
+ * 13. 문제 추가 폼 (중복 ID 자동 재명명 포함)
+ ***********************************************************/
+function ensureUniqueId(originalId, existingSet) {
+  if (!existingSet.has(originalId)) return originalId;
 
-  f.addEventListener("submit", e=>{
+  let base = originalId;
+  let n = 1;
+
+  while (existingSet.has(`${base}-${n}`)) {
+    n++;
+  }
+  return `${base}-${n}`;
+}
+
+function setupAddQuestionForm(){
+  const form = document.getElementById("addQuestionForm");
+
+  form.addEventListener("submit", e => {
     e.preventDefault();
 
-    const q={
-      id:document.getElementById("addId").value.trim(),
-      chapter:document.getElementById("addChapter").value,
-      type:document.getElementById("addType").value,
-      text:document.getElementById("addText").value.trim(),
-      options:[
-        document.getElementById("addOpA").value.trim(),
-        document.getElementById("addOpB").value.trim(),
-        document.getElementById("addOpC").value.trim(),
-        document.getElementById("addOpD").value.trim()
-      ],
-      answer:Number(document.getElementById("addAnswer").value),
-      explanation:document.getElementById("addExplanation").value.trim()
-    };
+    // 기존 문제 ID 목록 불러오기
+    const custom = loadCustomQuestions();
+    const existingIds = new Set([
+      ...BASE_QUESTIONS.map(q => q.id),
+      ...custom.map(q => q.id)
+    ]);
 
-    if(!q.id || !q.text || q.options.some(o=>!o) || q.answer<0 || q.answer>3){
-      alert("필드를 모두 입력하세요.");
+    let rawId = document.getElementById("addId").value.trim();
+    if (!rawId) {
+      alert("ID를 입력해주세요.");
       return;
     }
 
-    const custom = loadCustomQuestions();
-    if(custom.some(c=>c.id===q.id) || BASE_QUESTIONS.some(b=>b.id===q.id)){
-      alert("ID 중복입니다.");
+    // 🔥 자동 ID 리네이밍 적용
+    const id = ensureUniqueId(rawId, existingIds);
+    existingIds.add(id);
+
+    const q = {
+      id,
+      chapter: document.getElementById("addChapter").value,
+      type: document.getElementById("addType").value,
+      text: document.getElementById("addText").value.trim(),
+      options: [
+        document.getElementById("addOpA").value.trim(),
+        document.getElementById("addOpB").value.trim(),
+        document.getElementById("addOpC").value.trim(),
+        document.getElementById("addOpD").value.trim(),
+      ],
+      answer: Number(document.getElementById("addAnswer").value),
+      explanation: document.getElementById("addExplanation").value.trim() || ""
+    };
+
+    if (!q.text || q.options.some(o => !o) || q.answer < 0 || q.answer > 3) {
+      alert("모든 필드를 올바르게 입력해주세요.");
       return;
     }
 
@@ -1092,62 +1115,8 @@ function setupAddQuestionForm(){
     saveCustomQuestions(custom);
     refreshChapterDropdown();
 
-    alert("문제 추가 완료!");
-    f.reset();
-  });
-}
-
-/******************************************************************
- * 16. JSON 문제 업로드
- ******************************************************************/
-function setupUploadQuestions(){
-  const input=document.getElementById("uploadFileInput");
-  const btn=document.getElementById("uploadFileBtn");
-
-  btn.addEventListener("click", ()=>{
-    const file=input.files?.[0];
-    if(!file){ alert("파일을 선택하세요."); return; }
-
-    const reader=new FileReader();
-    reader.onload=e=>{
-      try{
-        const arr=JSON.parse(e.target.result);
-        if(!Array.isArray(arr)){ alert("JSON 배열 형식이 아닙니다."); return; }
-
-        const custom=loadCustomQuestions();
-        const existing=new Set([
-          ...BASE_QUESTIONS.map(q=>q.id),
-          ...custom.map(q=>q.id)
-        ]);
-
-        const valid=[];
-        arr.forEach((q,i)=>{
-          if(!q.id || !q.chapter || !q.text ||
-             !Array.isArray(q.options) || q.options.length!==4 ||
-             typeof q.answer!=="number"){
-            console.warn("제외", i, q);
-            return;
-          }
-
-          if(!("explanation" in q)) q.explanation="";
-
-          if(!existing.has(q.id)) valid.push(q);
-        });
-
-        if(!valid.length){ alert("추가할 문제가 없습니다."); return; }
-
-        saveCustomQuestions(custom.concat(valid));
-        refreshChapterDropdown();
-
-        alert(`${valid.length}문제 추가 완료!`);
-      }
-      catch(err){
-        console.error(err);
-        alert("JSON 파싱 오류");
-      }
-    };
-
-    reader.readAsText(file);
+    alert(`문제 추가 완료! (ID 자동 할당됨: ${id})`);
+    form.reset();
   });
 }
 
