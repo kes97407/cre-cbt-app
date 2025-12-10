@@ -2,202 +2,299 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<title>CRE Practice CBT (Stable v2.9)</title>
+<title>CRE Practice CBT</title>
 
 <style>
-body {
-  font-family: Arial, system-ui, sans-serif;
-  margin: 0;
-  padding: 0;
-  background:#f2f4f7;
-}
+  body {
+    font-family: Arial, system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    background:#f2f4f7;
+  }
 
-/* 메인 컨테이너 */
-.container {
-  max-width: 1100px;
-  margin: 20px auto;
-  background:#fff;
-  border-radius:10px;
-  padding:20px 24px 40px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-  display:none;
-}
+  /* 메인 컨테이너 */
+  .container {
+    max-width: 1100px;
+    margin: 20px auto;
+    background:#fff;
+    border-radius:10px;
+    padding:20px 24px 40px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    display:none;
+  }
 
-h1 { margin-top:0; }
+  h1 { margin-top:0; }
 
-/* 상단 컨트롤 박스 */
-.controls {
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-bottom:16px;
-  padding:12px;
-  background:#f7f9fc;
-  border-radius:8px;
-}
+  /* 상단 컨트롤 */
+  .controls {
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:16px;
+    padding:12px;
+    background:#f7f9fc;
+    border-radius:8px;
+  }
 
-.controls > div { min-width: 180px; }
+  .controls > div { min-width: 180px; }
 
-label {
-  font-size:14px;
-  font-weight:600;
-  display:block;
-  margin-bottom:4px;
-}
+  label {
+    font-size:14px;
+    font-weight:600;
+    display:block;
+    margin-bottom:4px;
+  }
 
-select,
-input[type="number"],
-input[type="text"],
-textarea {
-  width:100%;
-  padding:6px 8px;
-  font-size:14px;
-  box-sizing:border-box;
-}
+  select,
+  input[type="number"],
+  input[type="text"],
+  textarea {
+    width:100%;
+    padding:6px 8px;
+    font-size:14px;
+    box-sizing:border-box;
+  }
 
-button {
-  padding:8px 14px;
-  font-size:14px;
-  cursor:pointer;
-  border-radius:6px;
-  border:1px solid #1f6feb;
-  background:#1f6feb;
-  color:#fff;
-}
+  button {
+    padding:8px 14px;
+    font-size:14px;
+    cursor:pointer;
+    border-radius:6px;
+    border:1px solid #1f6feb;
+    background:#1f6feb;
+    color:#fff;
+  }
 
-button.secondary {
-  background:#fff;
-  color:#1f2933;
-  border-color:#cbd2e1;
-}
+  button.secondary {
+    background:#fff;
+    color:#1f2933;
+    border-color:#cbd2e1;
+  }
 
-button.danger {
-  background:#e11d48;
-  border-color:#e11d48;
-  color:#fff;
-}
+  button.danger {
+    background:#e11d48;
+    border-color:#e11d48;
+    color:#fff;
+  }
 
-#timer {
-  font-size:18px;
-  font-weight:bold;
-  color:#e11d48;
-}
+  button:disabled {
+    opacity:0.6;
+    cursor:not-allowed;
+  }
 
-#modeDesc {
-  font-size:13px;
-  color:#4b5563;
-  margin-top:4px;
-}
+  /* 타이머 */
+  #timer {
+    font-size:18px;
+    font-weight:bold;
+    color:#e11d48;
+  }
 
-/* 문제 블록 */
-.question-block {
-  margin-bottom:20px;
-  padding-bottom:12px;
-  border-bottom:1px solid #e5e7eb;
-}
+  #modeDesc {
+    font-size:13px;
+    color:#4b5563;
+    margin-top:4px;
+  }
 
-.question-title {
-  font-weight:bold;
-  margin-bottom:8px;
-}
+  /* 문제 블록 기본 */
+  .question-block {
+    margin-bottom:20px;
+    padding-bottom:12px;
+    border-bottom:1px solid #e5e7eb;
+  }
 
-.meta {
-  font-size:12px;
-  color:#6b7280;
-  margin-bottom:4px;
-}
+  .question-title {
+    font-weight:bold;
+    margin-bottom:8px;
+  }
 
-.option { margin:4px 0; font-size:14px; }
+  .meta {
+    font-size:12px;
+    color:#6b7280;
+    margin-bottom:4px;
+  }
 
-/* 결과 박스 */
-#resultBox {
-  margin-top:24px;
-  padding:16px;
-  border-radius:8px;
-  background:#ecfeff;
-  border:1px solid #7dd3fc;
-}
+  .option { margin:4px 0; font-size:14px; }
 
-#resultBox h3 { margin-top:0; }
+  /* ❗ 2단(영/한) 문제 블록 */
+  .question-block.dual {
+    display:flex;
+    gap:16px;
+  }
 
-.explanation {
-  font-size:13px;
-  margin-top:4px;
-  color:#334155;
-}
+  .q-left, .q-right {
+    width:50%;
+    box-sizing:border-box;
+  }
 
-/* 패널 */
-.panel-row {
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:20px;
-}
+  .q-right {
+    border-left:1px solid #e5e7eb;
+    padding-left:14px;
+    font-size:13px;
+    color:#374151;
+  }
 
-.panel {
-  flex:1;
-  min-width:260px;
-  background:#f9fafb;
-  border-radius:8px;
-  padding:10px 12px;
-  border:1px solid #e5e7eb;
-  max-height:300px;
-  overflow:auto;
-}
+  .ko-header {
+    font-weight:bold;
+    margin-bottom:4px;
+    font-size:13px;
+    color:#111827;
+  }
 
-.panel h3 {
-  margin-top:0;
-  font-size:15px;
-}
+  .ko-label {
+    font-size:12px;
+    font-weight:bold;
+    color:#4b5563;
+    margin-top:4px;
+  }
 
-.note-item,
-.score-item {
-  font-size:12px;
-  margin-bottom:6px;
-  border-bottom:1px dashed #e5e7eb;
-  padding-bottom:4px;
-}
+  .ko-option {
+    font-size:13px;
+    margin:3px 0;
+  }
 
-.tag {
-  display:inline-block;
-  font-size:11px;
-  padding:1px 6px;
-  border-radius:999px;
-  margin-left:4px;
-  background:#e5e7eb;
-}
+  @media (max-width: 900px){
+    .question-block.dual{
+      flex-direction:column;
+    }
+    .q-left,.q-right{
+      width:100%;
+    }
+    .q-right{
+      border-left:none;
+      border-top:1px solid #e5e7eb;
+      padding-left:0;
+      padding-top:8px;
+    }
+  }
 
-.tag.A { background:#dbeafe; }
-.tag.C { background:#fef3c7; }
+  /* 결과 박스 */
+  #resultBox {
+    margin-top:24px;
+    padding:16px;
+    border-radius:8px;
+    background:#ecfeff;
+    border:1px solid #7dd3fc;
+  }
 
-/* 비밀번호 게이트 */
-#gateOverlay {
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,0.9);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
+  #resultBox h3 { margin-top:0; }
 
-#gateBox {
-  background:#f9fafb;
-  border-radius:12px;
-  padding:24px 26px;
-  width:320px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
+  .explanation {
+    font-size:13px;
+    margin-top:4px;
+    color:#334155;
+  }
 
-#gateBox input {
-  width:100%;
-  padding:8px;
-  margin-top:8px;
-}
+  .ko-result-block {
+    font-size:12px;
+    margin-top:4px;
+    padding:6px 8px;
+    background:#f9fafb;
+    border-radius:4px;
+    border:1px dashed #e5e7eb;
+  }
 
-#gateMessage { font-size:12px; color:#dc2626; margin-top:6px; height:16px; }
-#gateBox button { width:100%; margin-top:10px; }
+  .ko-result-block b {
+    color:#4b5563;
+  }
 
+  /* 패널들 */
+  .panel-row {
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:20px;
+  }
+
+  .panel {
+    flex:1;
+    min-width:260px;
+    background:#f9fafb;
+    border-radius:8px;
+    padding:10px 12px;
+    border:1px solid #e5e7eb;
+    max-height:300px;
+    overflow:auto;
+  }
+
+  .panel h3 {
+    margin-top:0;
+    font-size:15px;
+  }
+
+  .note-item,
+  .score-item {
+    font-size:12px;
+    margin-bottom:6px;
+    border-bottom:1px dashed #e5e7eb;
+    padding-bottom:4px;
+  }
+
+  /* 태그 */
+  .tag {
+    display:inline-block;
+    font-size:11px;
+    padding:1px 6px;
+    border-radius:999px;
+    margin-left:4px;
+    background:#e5e7eb;
+  }
+
+  .tag.A { background:#dbeafe; }
+  .tag.C { background:#fef3c7; }
+
+  /* 비밀번호 게이트 */
+  #gateOverlay {
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,0.9);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+  }
+
+  #gateBox {
+    background:#f9fafb;
+    border-radius:12px;
+    padding:24px 26px;
+    width:320px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  }
+
+  #gateBox h2 { margin-top:0; margin-bottom:12px; }
+
+  #gateMessage {
+    font-size:12px;
+    color:#dc2626;
+    height:16px;
+    margin-top:6px;
+  }
+
+  #gateBox input {
+    width:100%;
+    padding:8px;
+    margin-top:8px;
+    box-sizing:border-box;
+  }
+
+  #gateBox button { margin-top:12px; width:100%; }
+
+  /* 문제추가 */
+  #addQuestionForm textarea { height:60px; resize:vertical; }
+
+  #addQuestionForm .small-input {
+    width:60px;
+    display:inline-block;
+  }
+
+  /* 2단 토글 라벨 */
+  .dual-toggle-inner {
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:500;
+  }
 </style>
 </head>
 <body>
@@ -207,42 +304,49 @@ button.danger {
   <div id="gateBox">
     <h2>CRE 연습 사이트</h2>
     <p style="font-size:13px;color:#4b5563;">비밀번호를 입력하세요.</p>
-    <input type="password" id="gatePassword" />
+    <input type="password" id="gatePassword" placeholder="비밀번호" />
     <div id="gateMessage"></div>
     <button id="gateBtn">입장</button>
+    <p style="font-size:11px;color:#6b7280;margin-top:12px;">
+      * 이 비밀번호는 간단한 출입 통제용입니다. 보안용으로는 충분하지 않습니다.
+    </p>
   </div>
 </div>
 
-<!-- 메인 컨텐츠 -->
+<!-- 메인 컨테이너 -->
 <div class="container" id="appContainer">
   <h1>CRE Practice CBT</h1>
   <p style="font-size:13px;color:#4b5563;">
-    챕터 / 유형 / 모드 / 시간 선택 후 "시험 시작"을 누르세요.
+    챕터 / 유형 / 문제 수 / 시간 / 출제 모드 선택 후 <b>시험 시작</b>을 눌러 연습하세요.<br/>
+    오답과 점수는 브라우저(LocalStorage)에 자동 저장됩니다.
   </p>
 
+  <!-- 상단 옵션 -->
   <div class="controls">
     <div>
       <label>챕터 선택</label>
-      <select id="chapterSelect"></select>
+      <select id="chapterSelect">
+        <!-- 동적으로 채워짐 -->
+      </select>
     </div>
 
     <div>
       <label>유형 선택</label>
       <select id="typeSelect">
-        <option value="all">전체</option>
-        <option value="A">A-type</option>
-        <option value="C">C-type</option>
+        <option value="all">A+C 전체</option>
+        <option value="A">A-type (개념형)</option>
+        <option value="C">C-type (계산/상황형)</option>
       </select>
     </div>
 
     <div>
       <label>문제 수</label>
-      <input id="countInput" type="number" value="10" min="1" max="200" />
+      <input id="countInput" type="number" min="1" max="200" value="10" />
     </div>
 
     <div>
       <label>타이머(분)</label>
-      <input id="timerInput" type="number" value="60" />
+      <input id="timerInput" type="number" min="0" max="240" value="60" />
     </div>
 
     <div>
@@ -254,68 +358,97 @@ button.danger {
       </select>
     </div>
 
+    <!-- 영/한 2단 보기 토글 -->
+    <div>
+      <label>보기 모드</label>
+      <div class="dual-toggle-inner">
+        <input type="checkbox" id="dualViewToggle" />
+        <span>영/한 2단 보기</span>
+      </div>
+    </div>
+
     <div style="display:flex;align-items:flex-end;gap:8px;">
       <button id="startBtn">시험 시작</button>
       <button id="submitBtn" class="secondary" disabled>제출</button>
       <button id="resetBtn" class="secondary" disabled>초기화</button>
     </div>
 
-    <div style="margin-left:auto;text-align:right;">
+    <div style="margin-left:auto; text-align:right;">
       <div id="timer">Timer: OFF</div>
       <div id="modeDesc"></div>
     </div>
   </div>
 
+  <!-- 문제 표시 영역 -->
   <div id="quizBox"></div>
+
+  <!-- 결과 표시 영역 -->
   <div id="resultBox"></div>
 
+  <!-- 패널 영역 -->
   <div class="panel-row">
+    <!-- 오답노트 -->
     <div class="panel">
-      <h3>오답노트</h3>
+      <h3>📒 오답노트 (자동 저장)</h3>
       <div id="wrongNotesBox"></div>
-      <button class="secondary" onclick="clearWrongNotes()">오답 초기화</button>
+      <button class="secondary" onclick="clearWrongNotes()">오답노트 초기화</button>
     </div>
 
+    <!-- 점수 기록 -->
     <div class="panel">
-      <h3>점수 기록</h3>
+      <h3>📊 점수 기록 (LocalStorage)</h3>
       <div id="scoreHistoryBox"></div>
-      <button class="secondary" onclick="clearScoreHistory()">점수 초기화</button>
+      <button class="secondary" onclick="clearScoreHistory()">점수 기록 초기화</button>
     </div>
 
+    <!-- 문제 추가 패널 -->
     <div class="panel">
-      <h3>문제 추가</h3>
+      <h3>➕ 문제 추가 (브라우저에 저장)</h3>
       <form id="addQuestionForm">
-        <label>ID</label>
-        <input id="addId" type="text" required />
+        <label>문제 ID</label>
+        <input type="text" id="addId" placeholder="예: Q100-1" required />
+
         <label>챕터</label>
         <select id="addChapter"></select>
+
         <label>유형</label>
         <select id="addType">
           <option value="A">A-type</option>
           <option value="C">C-type</option>
         </select>
-        <label>문제</label>
+
+        <label>문제 내용 (영문)</label>
         <textarea id="addText" required></textarea>
-        <label>보기 A/B/C/D</label>
-        <input id="addOpA" required />
-        <input id="addOpB" required />
-        <input id="addOpC" required />
-        <input id="addOpD" required />
-        <label>정답(0~3)</label>
-        <input id="addAnswer" type="number" min="0" max="3" value="0" />
-        <label>해설(optional)</label>
+
+        <label>보기 A/B/C/D (영문)</label>
+        <input type="text" id="addOpA" placeholder="보기 A" required />
+        <input type="text" id="addOpB" placeholder="보기 B" required />
+        <input type="text" id="addOpC" placeholder="보기 C" required />
+        <input type="text" id="addOpD" placeholder="보기 D" required />
+
+        <label>정답 (0=A, 1=B, 2=C, 3=D)</label>
+        <input type="number" id="addAnswer" min="0" max="3" class="small-input" value="0" required />
+
+        <label>해설 (영문, 선택)</label>
         <textarea id="addExplanation"></textarea>
-        <button type="submit" class="secondary" style="margin-top:8px;">추가</button>
+
+        <button type="submit" class="secondary" style="margin-top:8px;">문제 추가</button>
       </form>
 
-      <hr>
-      <h4>JSON 업로드</h4>
+      <hr style="margin:10px 0;">
+      <h4>📁 JSON 문제 파일 업로드</h4>
       <input type="file" id="uploadFileInput" accept=".json" />
-      <button class="secondary" id="uploadFileBtn">업로드</button>
+      <button class="secondary" id="uploadFileBtn" style="margin-top:6px;">파일에서 문제 추가</button>
 
-      <hr>
-      <button class="danger" id="clearCustomBtn">사용자 문제 제거</button>
-      <button class="secondary" id="exportCustomBtn">문제 다운로드</button>
+      <p style="font-size:11px;color:#6b7280;">
+        JSON 배열 형식: { id, chapter, type, text, options[4], answer, explanation? }<br/>
+        (문제·보기·해설은 모두 영어로만 넣으면 됩니다. 한국어는 자동 생성)
+      </p>
+
+      <hr style="margin:10px 0;">
+      <h4>📦 사용자 문제 관리</h4>
+      <button class="danger" id="clearCustomBtn">사용자 추가 문제 삭제</button>
+      <button class="secondary" id="exportCustomBtn" style="margin-top:4px;">사용자 문제 JSON 다운로드</button>
     </div>
   </div>
 </div>
@@ -327,97 +460,24 @@ button.danger {
 const APP_PASSWORD = "cre2025";
 
 /******************************************************************
- * 1. 기본 문제 데이터
+ * 1. 기본 문제 데이터 (예시 몇 개만, 실제 기출은 JSON 업로드로 추가)
  ******************************************************************/
 const BASE_QUESTIONS = [
-  { id:"Q1", chapter:"챕터 4 - Statistical Concepts", type:"C",
-    text:"Exponential 분포에서 MTBF = 800h일 때 R(400)은?",
+  { id:"Q1", chapter:"샘플 - Statistical Concepts", type:"C",
+    text:"For an exponential distribution with MTBF = 800 hours, what is the reliability at 400 hours?",
     options:["0.50","0.61","0.37","0.80"], answer:1,
-    explanation:"R = exp(-400/800)=exp(-0.5)=0.606" },
+    explanation:"R(t) = exp(-t/MTBF) = exp(-400/800) = exp(-0.5) ≈ 0.606" },
 
-  { id:"Q2", chapter:"챕터 4 - Statistical Concepts", type:"C",
-    text:"Exponential 시험 T=4000h, r=3, 90% MTBF 하한 공식?",
-    options:["2T/χ²(lower)","2T/χ²(upper)","T/r","T/(r-1)"],
-    answer:1, explanation:"Lower LCB = 2T / χ²(df=2r; upper α)" },
-
-  { id:"Q3", chapter:"챕터 4 - Statistical Concepts", type:"C",
-    text:"정규(50,10)에서 40 이하 확률?",
-    options:["0.16","0.30","0.50","0.84"], answer:0,
-    explanation:"Z=-1 → Φ(-1)=0.1587" },
-
-  { id:"Q4", chapter:"챕터 4 - Statistical Concepts", type:"A",
-    text:"Exponential R(MTBF) 값?",
-    options:["0.50","0.37","0.63","0.90"], answer:1,
-    explanation:"exp(-1)=0.37" },
-
-  { id:"Q5", chapter:"챕터 4 - Statistical Concepts", type:"A",
-    text:"Weibull β>1 의미?",
-    options:["초기고장","마모고장","고장률 일정","무작위"], answer:1,
-    explanation:"β>1 = wear-out" },
-
-  /* ===== Testing & Modeling ===== */
-  { id:"Q6", chapter:"챕터 7 - Testing and Modeling", type:"A",
-    text:"ALT의 목적?",
-    options:["한계 검사","단기간 수명예측","Cpk 향상","파괴시험"],
-    answer:1, explanation:"Accelerated Life Test = 수명 예측" },
-
-  { id:"Q7", chapter:"챕터 7 - Testing and Modeling", type:"A",
-    text:"Peck 모델은 무엇을 고려?",
-    options:["온도","습도","온도+습도","전압+진동"], answer:2,
-    explanation:"T & RH 기반" },
-
-  { id:"Q8", chapter:"챕터 7 - Testing and Modeling", type:"A",
-    text:"Step-stress 시험?",
-    options:["유지","단계 증가","단계 감소","무작위"],
-    answer:1, explanation:"Step-stress = 스트레스 증가" },
-
-  { id:"Q9", chapter:"챕터 7 - Testing and Modeling", type:"C",
-    text:"병렬 (0.7,0.8,0.9) 시스템 신뢰도?",
-    options:["0.90","0.97","0.50","0.80"], answer:1,
-    explanation:"1-(0.3*0.2*0.1)=0.994" },
-
-  { id:"Q10", chapter:"챕터 7 - Testing and Modeling", type:"C",
-    text:"Perfect Standby: Active=0.9, Standby=0.8",
-    options:["0.90","0.92","0.98","0.99"], answer:2,
-    explanation:"0.9 + 0.1*0.8 = 0.98" },
-
-  /* ===== Risk ===== */
-  { id:"Q11", chapter:"챕터 3 - Risk Management", type:"A",
-    text:"CCF 정의?",
-    options:["독립고장","동일원인 병렬고장","환경무관","회복고장"],
-    answer:1, explanation:"Common cause" },
-
-  { id:"Q12", chapter:"챕터 3 - Risk Management", type:"A",
-    text:"FTA 장점?",
-    options:["모든 고장","추세 분석","Top event 중심","상호작용"],
-    answer:2, explanation:"Top event 기반" },
-
-  /* ===== Design ===== */
-  { id:"Q13", chapter:"챕터 8 - Reliability Designs", type:"A",
-    text:"DOE 블록 정의?",
-    options:["요인 수준","균질 그룹","반복","상호작용"], answer:1,
-    explanation:"Block = 균질 조건 그룹" },
-
-  { id:"Q14", chapter:"챕터 8 - Reliability Designs", type:"A",
-    text:"Taguchi Loss?",
-    options:["규격내=0","제곱 증가","선형 증가","상수"], answer:1,
-    explanation:"L=k(y-T)^2" },
-
-  { id:"Q15", chapter:"챕터 8 - Reliability Designs", type:"A",
-    text:"Robust Design 목적?",
-    options:["비용↓","Cpk↑","Noise 민감도↓","시간↓"],
-    answer:2, explanation:"잡음 감소" },
-
-  /* ===== Maintainability ===== */
-  { id:"Q16", chapter:"챕터 9 - Maintainability", type:"A",
-    text:"RCM 목적?",
-    options:["비용↓","가용성 추정","중요 고장 예방","동일주기 교체"],
-    answer:2, explanation:"중요 모드 중심" },
-
-  { id:"Q17", chapter:"챕터 9 - Maintainability", type:"C",
-    text:"MTBM=1700, MDT=34 Ao?",
-    options:["0.90","0.95","0.98","0.99"], answer:2,
-    explanation:"1700/(1700+34)=0.981" },
+  { id:"Q2", chapter:"샘플 - Statistical Concepts", type:"A",
+    text:"In a Weibull distribution, what does a shape parameter β greater than 1 indicate?",
+    options:[
+      "Early-life failures",
+      "Wear-out failures with increasing failure rate",
+      "Constant failure rate",
+      "Random failures"
+    ],
+    answer:1,
+    explanation:"β>1 means wear-out region with increasing hazard rate." },
 ];
 
 /******************************************************************
@@ -502,7 +562,7 @@ function clearWrongNotes(){
 }
 
 function clearScoreHistory(){
-  if (!confirm("점수 기록을 모두 삭제할까요?")) return;
+  if (!confirm("점수 기록을 삭제할까요?")) return;
   saveScoreHistory([]);
   renderScoreHistory();
 }
@@ -511,6 +571,7 @@ function clearScoreHistory(){
  * 6. 타이머
  ******************************************************************/
 let timerId=null, timerSeconds=0, quizStarted=false, quizStartTime=null, currentQuiz=[];
+let dualViewEnabled = false;  // 영/한 2단 보기 모드
 
 function stopTimer(){
   if (timerId !== null){
@@ -561,34 +622,166 @@ const shuffleArray = arr => {
 };
 
 /******************************************************************
- * 8. 문제 화면 출력
+ * 8. 간단한 영→한 번역 엔진
+ *    - 완벽한 번역이 아니라, 시험용 주요 용어 위주 + 패턴 치환
+ ******************************************************************/
+function translateTechTerm(text) {
+  if (!text) return "";
+  let out = text;
+
+  const dict = {
+    "reliability": "신뢰도",
+    "reliability function": "신뢰도 함수",
+    "availability": "가용도",
+    "operation availability": "운용 가용도",
+    "maintainability": "정비성",
+    "maintenance": "유지보수",
+    "scheduled maintenance": "정기 유지보수",
+    "preventive maintenance": "예방정비",
+    "corrective maintenance": "교정정비",
+    "MTBF": "평균고장간격(MTBF)",
+    "MTTR": "평균수리시간(MTTR)",
+    "MTTF": "평균고장시간(MTTF)",
+    "failure rate": "고장률",
+    "hazard rate": "위험률",
+    "exponential distribution": "지수분포",
+    "weibull distribution": "와이블 분포",
+    "weibull": "와이블",
+    "accelerated life test": "가속수명시험",
+    "accelerated life testing": "가속수명시험",
+    "step-stress": "스텝 스트레스",
+    "common cause failure": "공통원인고장",
+    "fault tree analysis": "FTA(결함수 분석)",
+    "design of experiments": "실험계획법(DOE)",
+    "taguchi": "타구치",
+    "robust design": "강건 설계",
+    "reliability-centered maintenance": "RCM(신뢰성 중심 보전)",
+    "series system": "직렬 시스템",
+    "parallel system": "병렬 시스템"
+  };
+
+  for (const [en, ko] of Object.entries(dict)) {
+    const regex = new RegExp(en, "gi");
+    out = out.replace(regex, `${ko} (${en})`);
+  }
+  return out;
+}
+
+function translateNaturalSentence(text) {
+  if (!text) return "";
+  let out = text;
+
+  // 자주 나오는 시험 문장 패턴 몇 개 변환
+  out = out.replace(/Which of the following/gi, "다음 중");
+  out = out.replace(/Which ONE of the following/gi, "다음 보기 중 어느 것");
+  out = out.replace(/Which is NOT/gi, "다음 중 옳지 않은 것은");
+  out = out.replace(/Which of these/gi, "다음 항목 중");
+  out = out.replace(/is NOT/gi, "은(는) 아니다");
+  out = out.replace(/is/gi, "은(는)");
+  out = out.replace(/\?/g, "인가?");
+  out = out.replace(/Expression for/gi, "~에 대한 식은");
+
+  // 너무 깨지지 않게 영어 문장 앞에 한글 설명을 붙이는 정도로 유지
+  return out;
+}
+
+function buildKoreanQuestionBlock(q) {
+  const techQ = translateTechTerm(q.text);
+  const natQ  = translateNaturalSentence(q.text);
+
+  let html = `
+    <div class="ko-header">Q${q._no} 한글 번역</div>
+    <div class="ko-label">기술 번역</div>
+    <div>${techQ || "(번역 대상 텍스트 없음)"}</div>
+    <div class="ko-label">자연 번역</div>
+    <div>${natQ || "(원문 문장을 참고하세요.)"}</div>
+    <div class="ko-label" style="margin-top:6px;">보기 번역</div>
+  `;
+
+  q.options.forEach((op, idx) => {
+    const techOp = translateTechTerm(op);
+    const natOp  = translateNaturalSentence(op);
+    const ch = String.fromCharCode(65+idx);
+    html += `
+      <div class="ko-option">
+        <b>${ch}.</b> ${techOp}
+        <div style="margin-left:18px;">${natOp}</div>
+      </div>
+    `;
+  });
+
+  if (q.explanation) {
+    const techExp = translateTechTerm(q.explanation);
+    const natExp  = translateNaturalSentence(q.explanation);
+    html += `
+      <div class="ko-label" style="margin-top:6px;">해설 번역</div>
+      <div style="font-size:12px;">
+        <b>기술:</b> ${techExp}<br/>
+        <b>자연:</b> ${natExp}
+      </div>
+    `;
+  }
+
+  return html;
+}
+
+/******************************************************************
+ * 9. 문제 화면 출력 (영어만 / 2단 모드)
  ******************************************************************/
 function renderQuiz(){
   const box=document.getElementById("quizBox");
   box.innerHTML="";
 
+  const dual = dualViewEnabled;
+
   currentQuiz.forEach((q,idx)=>{
-    let h = `
-      <div class="question-block">
-        <div class="question-title">Q${idx+1}. ${q.text}</div>
-        <div class="meta">${q.id} · ${q.chapter} · ${q.type}</div>
-    `;
-    q.options.forEach((op,j)=>{
-      h += `
-        <div class="option">
-          <label>
-            <input type="radio" name="q${idx}" value="${j}">
-            ${String.fromCharCode(65+j)}. ${op}
-          </label>
-        </div>`;
-    });
-    h += "</div>";
-    box.innerHTML += h;
+    q._no = idx+1; // 번역 블록에서 번호 사용
+
+    if (!dual) {
+      // 기존 단일 영어 모드
+      let h = `
+        <div class="question-block">
+          <div class="question-title">Q${idx+1}. ${q.text}</div>
+          <div class="meta">${q.id} · ${q.chapter} · ${q.type}</div>
+      `;
+      q.options.forEach((op,j)=>{
+        h += `
+          <div class="option">
+            <label>
+              <input type="radio" name="q${idx}" value="${j}">
+              ${String.fromCharCode(65+j)}. ${op}
+            </label>
+          </div>`;
+      });
+      h += "</div>";
+      box.innerHTML += h;
+    } else {
+      // 2단(영/한) 모드
+      let left = `
+        <div class="q-left">
+          <div class="question-title">Q${idx+1}. ${q.text}</div>
+          <div class="meta">${q.id} · ${q.chapter} · ${q.type}</div>
+      `;
+      q.options.forEach((op,j)=>{
+        left += `
+          <div class="option">
+            <label>
+              <input type="radio" name="q${idx}" value="${j}">
+              ${String.fromCharCode(65+j)}. ${op}
+            </label>
+          </div>`;
+      });
+      left += "</div>";
+
+      const right = `<div class="q-right">${buildKoreanQuestionBlock(q)}</div>`;
+
+      box.innerHTML += `<div class="question-block dual">${left}${right}</div>`;
+    }
   });
 }
 
 /******************************************************************
- * 9. 출제 모드
+ * 10. 출제 모드
  ******************************************************************/
 function buildQuestionPool(){
   const ch = document.getElementById("chapterSelect").value;
@@ -644,7 +837,7 @@ function buildQuestionPool(){
 }
 
 /******************************************************************
- * 10. 시험 시작
+ * 11. 시험 시작
  ******************************************************************/
 function startQuiz(){
   const cnt = Number(document.getElementById("countInput").value);
@@ -693,7 +886,66 @@ function startQuiz(){
 }
 
 /******************************************************************
- * 11. 제출 & 채점
+ * 12. 오답 기반 자동 복습문제 생성 엔진
+ ******************************************************************/
+function autoGenerateQuestionsFromWrong(wrongList, notes){
+  if(!wrongList || !wrongList.length) return;
+
+  const custom = loadCustomQuestions();
+  const allIds = new Set([
+    ...BASE_QUESTIONS.map(q=>q.id),
+    ...custom.map(q=>q.id)
+  ]);
+
+  let added = 0;
+
+  wrongList.forEach(q=>{
+    const note = notes.find(n => n.id === q.id);
+    if(!note) return;
+
+    // 최소 2회 이상 틀린 문제만 복습문제 생성
+    if(note.missCount < 2) return;
+
+    // 이미 복습문제를 만든 적 있으면 패스
+    const base = q.id + "-R";
+    if (custom.some(c => c.id.startsWith(base))) return;
+
+    const shuffledOptions = shuffleArray(q.options);
+    const correctValue = q.options[q.answer];
+    const newAnswerIdx = shuffledOptions.indexOf(correctValue);
+    if(newAnswerIdx < 0) return;
+
+    let newId = base;
+    let n = 1;
+    while(allIds.has(newId)){
+      newId = base + n;
+      n++;
+    }
+    allIds.add(newId);
+
+    const newQ = {
+      id: newId,
+      chapter: q.chapter,
+      type: q.type,
+      text: "[Review] " + q.text,
+      options: shuffledOptions,
+      answer: newAnswerIdx,
+      explanation: "(Auto-generated review question based on " + q.id + ") " + (q.explanation||"")
+    };
+
+    custom.push(newQ);
+    added++;
+  });
+
+  if(added>0){
+    saveCustomQuestions(custom);
+    refreshChapterDropdown();
+    console.log(`자동 생성 복습문제 ${added}개 추가됨`);
+  }
+}
+
+/******************************************************************
+ * 13. 제출 & 채점
  ******************************************************************/
 function submitQuiz(auto=false){
   if(!quizStarted) return;
@@ -714,6 +966,9 @@ function submitQuiz(auto=false){
     if(ok) correct++;
     else wrong.push(q);
 
+    const techQ = translateTechTerm(q.text);
+    const natQ  = translateNaturalSentence(q.text);
+
     html += `
       <div style="margin-bottom:12px;">
         <b>Q${idx+1} (${q.id})</b><br>
@@ -723,6 +978,10 @@ function submitQuiz(auto=false){
           ${String.fromCharCode(65+q.answer)}. ${q.options[q.answer]}
         </span>
         <div class="explanation">${q.explanation||""}</div>
+        <div class="ko-result-block">
+          <b>[문제 기술 번역]</b> ${techQ}<br/>
+          <b>[문제 자연 번역]</b> ${natQ}
+        </div>
       </div>
     `;
   });
@@ -739,9 +998,9 @@ function submitQuiz(auto=false){
 
   document.getElementById("submitBtn").disabled=true;
 
-  /* 오답 기록 */
+  // 오답 기록
+  let notes = loadWrongNotes();
   if(wrong.length){
-    const notes=loadWrongNotes();
     const now=new Date().toLocaleString();
 
     wrong.forEach(q=>{
@@ -759,9 +1018,12 @@ function submitQuiz(auto=false){
 
     saveWrongNotes(notes);
     renderWrongNotes();
+
+    // 자동 복습문제 생성
+    autoGenerateQuestionsFromWrong(wrong, notes);
   }
 
-  /* 점수 저장 */
+  // 점수 저장
   const hist=loadScoreHistory();
   hist.push({
     date:new Date().toLocaleString(),
@@ -775,7 +1037,7 @@ function submitQuiz(auto=false){
 }
 
 /******************************************************************
- * 12. 초기화
+ * 14. 초기화
  ******************************************************************/
 function resetQuiz(){
   stopTimer();
@@ -792,7 +1054,7 @@ function resetQuiz(){
 }
 
 /******************************************************************
- * 13. 문제 추가 폼
+ * 15. 문제 추가 폼
  ******************************************************************/
 function setupAddQuestionForm(){
   const f=document.getElementById("addQuestionForm");
@@ -836,7 +1098,7 @@ function setupAddQuestionForm(){
 }
 
 /******************************************************************
- * 14. JSON 문제 업로드
+ * 16. JSON 문제 업로드
  ******************************************************************/
 function setupUploadQuestions(){
   const input=document.getElementById("uploadFileInput");
@@ -880,6 +1142,7 @@ function setupUploadQuestions(){
         alert(`${valid.length}문제 추가 완료!`);
       }
       catch(err){
+        console.error(err);
         alert("JSON 파싱 오류");
       }
     };
@@ -889,7 +1152,7 @@ function setupUploadQuestions(){
 }
 
 /******************************************************************
- * 15. 사용자 문제 관리
+ * 17. 사용자 문제 관리
  ******************************************************************/
 function setupCustomManagement(){
   document.getElementById("clearCustomBtn").addEventListener("click", ()=>{
@@ -918,7 +1181,7 @@ function setupCustomManagement(){
 }
 
 /******************************************************************
- * 16. 비밀번호 게이트
+ * 18. 비밀번호 게이트
  ******************************************************************/
 function setupGate(){
   const ov=document.getElementById("gateOverlay");
@@ -935,6 +1198,12 @@ function setupGate(){
       renderWrongNotes();
       renderScoreHistory();
       refreshChapterDropdown();
+
+      // 2단 보기 설정 복원
+      const savedDual = localStorage.getItem("creDualView")==="1";
+      const dualChk = document.getElementById("dualViewToggle");
+      dualChk.checked = savedDual;
+      dualViewEnabled = savedDual;
     } else {
       msg.textContent="비밀번호가 올바르지 않습니다.";
     }
@@ -947,7 +1216,23 @@ function setupGate(){
 }
 
 /******************************************************************
- * 17. 초기 실행
+ * 19. 영/한 2단 보기 토글 설정
+ ******************************************************************/
+function setupDualViewToggle(){
+  const cb = document.getElementById("dualViewToggle");
+  if(!cb) return;
+
+  cb.addEventListener("change", ()=>{
+    dualViewEnabled = cb.checked;
+    localStorage.setItem("creDualView", dualViewEnabled ? "1" : "0");
+    if(currentQuiz.length){
+      renderQuiz(); // 같은 문제로 레이아웃만 다시 렌더링
+    }
+  });
+}
+
+/******************************************************************
+ * 20. 초기 실행
  ******************************************************************/
 document.getElementById("startBtn").addEventListener("click", startQuiz);
 document.getElementById("submitBtn").addEventListener("click", ()=>submitQuiz(false));
@@ -957,7 +1242,8 @@ setupAddQuestionForm();
 setupUploadQuestions();
 setupCustomManagement();
 setupGate();
+setupDualViewToggle();
 </script>
-</body>
-</html>  
 
+</body>
+</html>
